@@ -5,6 +5,7 @@ if username in valid_usernames:
     capitalized_username =[username.capitalize() for username in username]
     print("Hello " + username + ". Welcome back to your account.")
     print("The current shipping prices are as follows:")
+    Shipping_Amount = input(f"Hello! {username}, What amount of _ would you like to buy?")
      if 0 < Shipping_Amount <= 200:
             Total = Shipping_Price[1] * Shipping_Amount
         elif 200 < Shipping_Amount <= 400:
