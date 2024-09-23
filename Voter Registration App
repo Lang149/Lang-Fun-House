@@ -12,6 +12,6 @@ if age >= 16:
     print("-Libertarian")
     print("-Green")
     party = input("What party would you like to join: ")
-    print("Congratulations " + username + "! You have joined the " + party + " party!")
+    print(f"Congratulations {username}! You have joined the {party.capitalize()} party!") #ChatGPT
 else:
     print("You are not old enough to register to vote.")
