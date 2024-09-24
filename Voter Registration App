@@ -14,11 +14,12 @@ def congration(Message_addition):
 if age >= 16:
     print("Congratulations " + username + "! You are old enough to register to vote.")
     print("Here is a list of political parties to join:")
-    
-    for parties in valid_parties:
-        print(f"-{parties}")
-        
+
     while True:
+        
+        for parties in valid_parties:
+            print(f"-{parties}")
+            
         party = input("What party would you like to join: ").title()
 
         if party == valid_parties[0] or party == valid_parties[1]:
@@ -34,6 +35,9 @@ if age >= 16:
             print("The party you have choosen is not a given party, please try again.")
             continue
 else:
+    print("You are not old enough to register to vote.")
+
+print("Thank you for voting!")
     print("You are not old enough to register to vote.")
     
 print("Thank you for voting!")
