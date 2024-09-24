@@ -16,7 +16,6 @@ if age >= 16:
     print("Here is a list of political parties to join:")  # if command, any age lower than 16 will end the command
 
     while True: #while loop so that if they pick a not given party, it sends them back to the beginning
-
         for parties in valid_parties:
             print(f"-{parties}")
 
