@@ -8,30 +8,32 @@ age = int(input("Age: "))
 
 valid_parties = ["Republican", "Democratic", "Independent", "Libertarian", "Green"]
 
+
 def congratulation(Message_addition):
-    print(f"Congratulations {username}! {Message_addition}") #congratulation function to make my life easier
+    print(f"Congratulations {username}! {Message_addition}")  # congratulation function to make my life easier
+
 
 if age >= 16:
     print("Congratulations " + username + "! You are old enough to register to vote.")
-    print("Here is a list of political parties to join:")
+    print("Here is a list of political parties to join:") # if command, any age lower than 16 will end the command
 
-    while True: #while loop so that if they pick a not given party, it sends them back to the beginning
+    while True:  # while loop so that if they pick a not given party, it sends them back to the beginning
 
         for parties in valid_parties:
             print(f"-{parties}")
 
         party = input("What party would you like to join: ").title()
 
-        if party == valid_parties[0] or party == valid_parties[1]: #checks if the input and 
+        if party == valid_parties[0] or party == valid_parties[1]:  # checks if the input and 
             # gives the respective message based on their input and breaks the loop
-                
+
             congratulation(f"You have joined the {party}, a major party!")
             break
         elif party == valid_parties[2]:
             congratulation(f"You are an independent person!")
             break
         elif party == valid_parties[3] or party == valid_parties[4]:
-            congratulation(f"You have joined the {party}, which is not a major party!") #ChatGPT
+            congratulation(f"You have joined the {party}, which is not a major party!")  # ChatGPT
             break
         else:
             print("The party you have choosen is not a given party, please try again.")
