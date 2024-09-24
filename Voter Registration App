@@ -8,28 +8,30 @@ age = int(input("Age: "))
 
 valid_parties = ["Republican", "Democratic", "Independent", "Libertarian", "Green"]
 
-def congration(Message_addition):
-    print(f"Congratulations {username}! {Message_addition}")
+def congratulation(Message_addition):
+    print(f"Congratulations {username}! {Message_addition}") #congratulation function to make my life easier
 
 if age >= 16:
     print("Congratulations " + username + "! You are old enough to register to vote.")
     print("Here is a list of political parties to join:")
 
-    while True:
-        
+    while True: #while loop so that if they pick a not given party, it sends them back to the beginning
+
         for parties in valid_parties:
             print(f"-{parties}")
-            
+
         party = input("What party would you like to join: ").title()
 
-        if party == valid_parties[0] or party == valid_parties[1]:
-            congration(f"You have joined the {party}, a major party!")
+        if party == valid_parties[0] or party == valid_parties[1]: #checks if the input and 
+            # gives the respective message based on their input and breaks the loop
+                
+            congratulation(f"You have joined the {party}, a major party!")
             break
         elif party == valid_parties[2]:
-            congration(f"You are an independent person!")
+            congratulation(f"You are an independent person!")
             break
         elif party == valid_parties[3] or party == valid_parties[4]:
-            congration(f"You have joined the {party}, which is not a major party!") #ChatGPT
+            congratulation(f"You have joined the {party}, which is not a major party!") #ChatGPT
             break
         else:
             print("The party you have choosen is not a given party, please try again.")
@@ -37,7 +39,4 @@ if age >= 16:
 else:
     print("You are not old enough to register to vote.")
 
-print("Thank you for voting!")
-    print("You are not old enough to register to vote.")
-    
 print("Thank you for voting!")
