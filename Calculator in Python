@@ -1,1 +1,5 @@
+print("Welcome to The Python Calculator App")
+print("Enter two numbers and an operation and the desired operation will be performed.")
 
+first_number = int(input("Enter a number: "))
+second_number = int(input("Enter a number: "))
