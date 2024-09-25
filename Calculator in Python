@@ -1,5 +1,26 @@
 print("Welcome to The Python Calculator App")
 print("Enter two numbers and an operation and the desired operation will be performed.")
 
+def lexical_statement(num1, num2, function, output):
+    print(f"The lexical statement of the {function} of {num1} and {num2} is {output}")
+
+
 first_number = int(input("Enter a number: "))
-second_number = int(input("Enter a number: "))
+second_number = int(input("Enter another number: "))
+
+while True:
+    operation = input("Enter the operation (+, -, *, /): ")
+
+    def addition_function(num1, num2, output):
+        return num1 + num2
+
+
+    if operation == '+':
+        result = first_number + second_number
+        print(f"The sum of {first_number} and {second_number} is {result}")
+        break
+        
+    if operation == '-':
+        result = first_number - second_number
+        lexical_statement(first_number, second_number, 'subtraction', result)
+        break
