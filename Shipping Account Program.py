@@ -1,12 +1,11 @@
 print("Welcome to the Shipping Account Program!")
-username = input("Hello! What is your username: ")
+username = input("Hello! What is your username: ").title()
 valid_usernames = ["Lang221", "Yamshippyhappyface",
-                   "JamesIsTrueForYou", "Letsparty99", "Andy123"]  # Chatgpt
-Not_Case_Sensitive = valid_usernames.lower()
+                   "JamesIsTrueForYou", "Letsparty99", "Andy123"]
 Shipping_Price = [5.10, 4.95, 4.60, 4.30]
 
 
-def Shipping_Total(Amount):
+def Shipping_Total(Amount): #Shipping total of all
     if 0 < Amount <= 100:
         Total = Shipping_Price[0] * Amount
     elif 100 < Amount <= 500:
@@ -16,12 +15,12 @@ def Shipping_Total(Amount):
     elif Amount > 1000:
         Total = Shipping_Price[3] * Amount
     else:
-        print(f"The value \"{Amount}\" is not a possible value.")
+        print(f"The value \"{Amount}\" is not a possible value.") #if amount is less than or equal to 0, give back this message
         Total = 0
-    return Total
+    return Total #returns total value
 
 
-def confirmation(confirm, cancel):
+def confirmation(confirm, cancel): #confirmation, confirms the order
     while True:
         print(f"Type {confirm} to confirm, type {cancel} to cancel.")
         confirmation_input = input("Input: ").upper()
@@ -37,7 +36,7 @@ def confirmation(confirm, cancel):
             print("Your answer is not a vaild answer please try again.")
 
 
-if username in Not_Case_Sensitive:
+if username in valid_usernames: #actual function that gets printed
     capitalized_username = [username.capitalize() for username in username]
     print("Hello " + username + ". Welcome back to your account.")
     print("The current shipping prices are as follows:")
@@ -50,6 +49,5 @@ if username in Not_Case_Sensitive:
     Shipping_Amount = int(input("Shipping Order amount: "))
     print(f"Your shipping price is {Shipping_Total(Shipping_Amount)}$.")
     confirmation("Y", "N")
-
 else:
     print("Sorry, you do not have an account with us. Goodbye.")
