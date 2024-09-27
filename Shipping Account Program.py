@@ -2,6 +2,7 @@ print("Welcome to the Shipping Account Program!")
 username = input("Hello! What is your username: ")
 valid_usernames = ["Lang221", "Yamshippyhappyface",
                    "JamesIsTrueForYou", "Letsparty99", "Andy123"]  # Chatgpt
+Not_Case_Sensitive = valid_usernames.lower()
 Shipping_Price = [5.10, 4.95, 4.60, 4.30]
 
 
@@ -36,7 +37,7 @@ def confirmation(confirm, cancel):
             print("Your answer is not a vaild answer please try again.")
 
 
-if username in valid_usernames:
+if username in Not_Case_Sensitive:
     capitalized_username = [username.capitalize() for username in username]
     print("Hello " + username + ". Welcome back to your account.")
     print("The current shipping prices are as follows:")
