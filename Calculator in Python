@@ -1,26 +1,73 @@
 print("Welcome to The Python Calculator App")
 print("Enter two numbers and an operation and the desired operation will be performed.")
 
-def lexical_statement(num1, num2, function, output):
-    print(f"The lexical statement of the {function} of {num1} and {num2} is {output}")
+history = [] #this created a history list that can storage all the calculations
+def addition_function(num1, num2):
+    result = num1 + num2
+    return f"{num1} + {num2} = {round(result, 4)}" #provided by ChatGPT, this command round to nearest fourth digits
 
+def subtraction_function(num1, num2):
+    result = num1 - num2
+    return f"{num1} - {num2} = {round(result, 4)}"
 
-first_number = int(input("Enter a number: "))
-second_number = int(input("Enter another number: "))
+def multiplication_function(num1, num2):
+    result = num1 * num2
+    return f"{num1} * {num2} = {round(result, 4)}"
+
+def division_function(num1, num2):
+    if num2 != 0:
+        result = num1 / num2  # Ensure floating-point division
+        return f"{num1} / {num2} = {round(result, 4)}"
+    else:
+        return "Division by zero is not allowed."
+def exponentiation_function(num1, num2):
+    result = num1 ** num2
+    return f"{num1} ** {num2} = {round(result, 4)}"
+
+def confirmation():
+    while True:
+        confirmation_input = input("Do you want to perform another calculation? Type 'y' for yes or 'n' for no: ").lower()
+        if confirmation_input == 'y':
+            return True
+        elif confirmation_input == 'n':
+            return False
+        else:
+            print("Invalid input. Please enter 'y' to continue or 'n' to exit.")
 
 while True:
-    operation = input("Enter the operation (+, -, *, /): ")
+    num1 = float(input("Enter a number: ")) #the float command allows the code to accept decimals
+    num2 = float(input("Enter another number: "))
 
-    def addition_function(num1, num2, output):
-        return num1 + num2
+    operation = input("Enter an operation (addition, subtraction, multiplication, division, or exponentiation) (+, -, *, /, **): ")
 
+    if operation == "+" or operation == "addition" or operation == "a":
+        result = addition_function(num1, num2)
+        print(result)
 
-    if operation == '+':
-        result = first_number + second_number
-        print(f"The sum of {first_number} and {second_number} is {result}")
-        break
-        
-    if operation == '-':
-        result = first_number - second_number
-        lexical_statement(first_number, second_number, 'subtraction', result)
+    elif operation == "-" or operation == "subtraction" or operation == "s":
+        result = subtraction_function(num1, num2)
+        print(result)
+
+    elif operation == "*" or operation == "multiplication" or operation == "m":
+        result = multiplication_function(num1, num2)
+        print(result)
+
+    elif operation == "/" or operation == "division" or operation == "d":
+        result = division_function(num1, num2)
+        print(result)
+
+    elif operation == "**" or operation == "exponentiation" or operation == "e":
+        result = exponentiation_function(num1, num2)
+        print(result)
+
+    else:
+        print("Not a valid operation, please try again.")
+        result = "OPP ERROR"
+
+    history.append(result)
+
+    if not confirmation():
+        print("Calculation Summary: ")
+        print("\n".join(history)) #ChatGPT the history is joined into a single string, which ensures each calculation or error appears on a new line in the summary
+        print("Thank you for using The Python Calculator App. Goodbye!")
         break
