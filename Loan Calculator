@@ -1,1 +1,18 @@
+from matplotlib import pyplot
 
+def get_loan_info():
+    loan = {}
+
+    loan['principal'] = float(input('Enter the loan amount: '))
+    loan['rate'] = float(input('Enter the interest rate: '))//100
+    loan['monthly payment'] = float(input('Enter the desired monthly payment amount: '))
+    loan['money paid'] = 0
+
+    return loan
+
+def show_loan_info(loan, number):
+    print("\n----loan information after " + str(number) + " months----")
+    for key, value in loan.items():
+        print(key.title() + ': ' + str(value))
+
+def collect_interest()
