@@ -16,13 +16,13 @@ def show_loan_info(loan, months):
         print(key.title() + ': ' + str(value))
 
 def collect_interest(loan):
-    interest = loan['principle'] * loan['rate'] / 12
+    interest = loan['principal'] * loan['rate'] / 12
     loan['principal'] += interest
 
 
 def make_monthly_payment(loan):
-    loan['principle'] -= loan['monthly payment']
-    if loan['principle'] > 0:
+    loan['principal'] -= loan['monthly payment']
+    if loan['principal'] > 0:
         loan['money paid'] += loan['monthly payment']
 
     else:
@@ -62,4 +62,10 @@ data_to_plot = []
 show_loan_info(principal, month_number)
 print("You will now begin to pay off your loan.")
 while starting_principal > 0:
-    
+    collect_interest(principal)
+    make_monthly_payment(principal)
+    month_number += 1
+    if principal['principal'] > starting_principal:
+        break
+
+
