@@ -61,11 +61,12 @@ starting_principal = principal['principal']
 data_to_plot = []
 show_loan_info(principal, month_number)
 print("You will now begin to pay off your loan.")
-while starting_principal > 0:
+while principal['principal'] > 0:
     collect_interest(principal)
     make_monthly_payment(principal)
     month_number += 1
     if principal['principal'] > starting_principal:
+        print("You will never pay off your loan")
         break
-
-
+    data_to_plot.append((month_number, principal['principal']))
+    show_loan_info()
