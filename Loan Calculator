@@ -69,4 +69,7 @@ while principal['principal'] > 0:
         print("You will never pay off your loan")
         break
     data_to_plot.append((month_number, principal['principal']))
-    show_loan_info()
+    show_loan_info(principal, month_number)
+else:
+    print('Congratulations! You have pay off your loans in ' + str(month_number) + ' months!')
+    print('Your initial loan was ')
