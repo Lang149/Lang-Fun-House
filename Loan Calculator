@@ -68,7 +68,7 @@ while principal['principal'] > 0:
     if principal['principal'] > starting_principal:
         print("You will never pay off your loan")
         break
-    data_to_plot.append(month_number) ; data_to_plot.append(principal['principal'])
+    data_to_plot.extend([month_number, principal['principal']])
     show_loan_info(principal, month_number)
 else:
     print(data_to_plot)
