@@ -68,8 +68,10 @@ while principal['principal'] > 0:
     if principal['principal'] > starting_principal:
         print("You will never pay off your loan")
         break
-    data_to_plot.append((month_number, principal['principal']))
+    data_to_plot.append(month_number) ; data_to_plot.append(principal['principal'])
     show_loan_info(principal, month_number)
 else:
+    print(data_to_plot)
     print('Congratulations! You have pay off your loans in ' + str(month_number) + ' months!')
-    summarize_loan(principal, month_number, principal['money paid'])
+    summarize_loan(principal, month_number, starting_principal)
+    create_graph(data_to_plot, principal)
