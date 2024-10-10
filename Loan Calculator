@@ -72,4 +72,4 @@ while principal['principal'] > 0:
     show_loan_info(principal, month_number)
 else:
     print('Congratulations! You have pay off your loans in ' + str(month_number) + ' months!')
-    print('Your initial loan was ')
+    summarize_loan(principal, month_number, principal['money paid'])
