@@ -1,27 +1,31 @@
 import matplotlib.pyplot as plt
-
+#imports pyplot but changes the call from pyplot to plt
 def get_loan_info():
-    loan = {}
+    loan = {} #empty list
 
     loan['principal'] = float(input('Enter the loan amount: '))
-    loan['rate'] = float(input('Enter the interest rate: ')) / 100
+    loan['rate'] = float(input('Enter the interest rate in percent: ')) / 100 #decimal calculation of percent
     loan['monthly payment'] = float(input('Enter the desired monthly payment amount: '))
-    loan['money paid'] = 0
+    loan['money paid'] = 0 #constant
 
     return loan
 
 def show_loan_info(loan, months):
+
     print("\n----loan information after " + str(months) + " months----")
-    for key, value in loan.items():
-        print(key.title() + ': ' + str(value))
+    for key, value in loan.items(): #takes the name and input for that variable of the loan in terms of the dictionary
+        print(key.title() + ': ' + str(value)) #prints the  dictionary name and the input for that dictionary
 
 def collect_interest(loan):
+
     interest = loan['principal'] * loan['rate'] / 12
     loan['principal'] += interest
-
+#calculation for adding & collecting interest
 
 def make_monthly_payment(loan):
+
     loan['principal'] -= loan['monthly payment']
+
     if loan['principal'] > 0:
         loan['money paid'] += loan['monthly payment']
 
@@ -29,11 +33,14 @@ def make_monthly_payment(loan):
         final_payment = loan['principal'] + loan['monthly payment']
         loan['money paid'] += final_payment
         loan['principal'] = 0
-
+#Calcultion for making the monthly payement and making it so if the payment becomes negative, sets it to 0
 
 def summarize_loan(loan, current_month, initial_principal):
+
     total_spent = loan['money paid']
     interest_paid = total_spent - initial_principal
+
+#prints the summary of the entire loan
     print("\n----Loan Summary----")
     print(f"Initial loan value: ${initial_principal:.2f}")
     print(f"Months to pay off: {current_month}")
@@ -41,37 +48,52 @@ def summarize_loan(loan, current_month, initial_principal):
     print(f"Total interest paid: ${interest_paid:.2f}")
 
 def create_graph(data, loan):
-    x_values= [] #creat blank lists
+    x_values= [] #creates 2 blank list
     y_values = []
 
     for month, principal in data:
-        x_values.append(month) #add month number to x
-        y_values.append(principal) #add principal number to y
+        x_values.append(month) #add odd length of list to x
+        y_values.append(principal) #add even length of list to y
 
-        plt.plot(x_values, y_values)
-        plt.title(str(100*loan['rate']) + "% Interest" + " With $" + str(loan['monthly payment']) + " Monthly Payment.")
-        plt.xlabel('Month Number')
-        plt.ylabel('Principal of Loan')
-        plt.show()
+    plt.plot(x_values, y_values)
+    plt.title(str(100*loan['rate']) + "% Interest" + " With $" + str(loan['monthly payment']) + " Monthly Payment.")
+    plt.xlabel('Month Number')
+    plt.ylabel('Principal of Loan')
+    plt.show() #plots everything
 
+#Actual code
 print("Welcome user! This is a loan calculator created by Andy and Lang.")
+
+#setting up variables and info
 month_number = 0
 principal = get_loan_info()
 starting_principal = principal['principal']
 data_to_plot = []
 show_loan_info(principal, month_number)
+#starts the code.
 print("You will now begin to pay off your loan.")
-while principal['principal'] > 0:
+
+while principal['principal'] > 0: #While the principal if greater than 0, keep proceeding
+
+#does the loan stuff
     collect_interest(principal)
     make_monthly_payment(principal)
     month_number += 1
+
+#If the interest is greater than your monthly payment, end the code here.
     if principal['principal'] > starting_principal:
         print("You will never pay off your loan")
-        break
-    data_to_plot.extend([month_number, principal['principal']])
-    show_loan_info(principal, month_number)
+        break 
+
+#shows the loan info after each month and adds it to the empty data list
+    data_to_plot.append([month_number, principal['principal']])
+    show_loan_info(principal, month_number) 
+    input("Press Enter to continue. ")
+
 else:
-    print(data_to_plot)
+
+#congratulation message, prints the loan summary, and prints out graph
     print('Congratulations! You have pay off your loans in ' + str(month_number) + ' months!')
+
     summarize_loan(principal, month_number, starting_principal)
     create_graph(data_to_plot, principal)
