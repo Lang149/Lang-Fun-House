@@ -1,0 +1,103 @@
+class Car:
+    def __init__(self, name, brand, model, year):
+        self.name = name
+        self.brand = brand  # Store the brand passed as an argument
+        self.model = model  # Store the model passed as an argument
+        self.year = year  # Store the year passed as an argument
+
+    def display_brand(self):
+        print(f"{self.name} is starting!")
+        print(f"The brand of {self.name} is {self.brand}!")  # Access the brand attribute
+        print(f"The model of {self.name} is {self.model}!")
+        print(f"The year of {self.name} is {self.year}!")
+
+# Create an object of the Car class, passing arguments
+car1 = Car("the first car's", "Toyota", "XR", 2007)
+car2 = Car("the second car's","Honda", "BC5", 2001)
+
+# Call the display_brand method
+car1.display_brand()
+car2.display_brand()
+----------------------------------------------------------------------------------------
+class Account:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.balance = float(balance)
+    def display_brand(self):
+        print(f"You had successfully hacked into Elon Musk's Chase account!")
+        print(f"\nThe JP Morgan Chase account of {self.owner} is available!")
+        print(f"The current balance of this account: ${self.balance}\n")
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"${amount} deposited successfully. New balance: ${self.balance}")
+
+    def withdraw(self, amount):
+        if amount <= self.balance:
+            self.balance -= amount
+            print(f"${amount} withdrawn successfully. New balance: ${self.balance}")
+        else:
+            print(f"Insufficient funds. Current balance: ${self.balance}")
+
+    def transaction(self):
+        while True:
+            action = input(
+                "\nDo you want to deposit or withdraw? (Enter 'd' for deposit, 'w' for withdraw, 'q' to quit): ").lower()
+            if action == 'd':
+                amount = float(input("Enter the amount to deposit: "))
+                self.deposit(amount)
+            elif action == 'w':
+                amount = float(input("Enter the amount to withdraw: "))
+                self.withdraw(amount)
+            elif action == 'q':
+                print("Transaction finished.")
+                break
+            else:
+                print("Invalid input, please try again.")
+
+account1 = Account("Elon Musk", 100000000000)
+account1.display_brand()
+account1.transaction()
+----------------------------------------------------------------------------------------
+class Student:
+    def __init__(self, student, grade):
+        self.student = student
+        self.grade = float(grade)
+
+    def display_brand(self):
+        print(f"You had successfully logged into the Google Classroom account!")
+        print(f"\nThe score {self.student} is available!")
+        print(f"The current grade of this student is: {self.grade}\n")
+
+    def adding(self, grade):
+        self.grade += grade
+        if grade <= 100:
+            print(f"{self.grade} is added successfully. New grade: {self.grade}")
+        else:
+            print("Invalid.")
+
+    def reducing(self, grade):
+        if grade <= self.grade:
+            self.grade -= grade
+            print(f"{grade} is reduced successfully. New grade: {self.grade}")
+        else:
+            print(f"Insufficient reduction. Current grade: {self.grade}")
+
+    def transaction(self):
+        while True:
+            action = input("\nDo you want to add or reduce grade (Enter 'a' for add, 'r' for reduce, 'q' to quit): ").lower()
+            if action == 'a':
+                grade = float(input("Enter the amount to add: "))
+                self.adding(grade)
+            elif action == 'r':
+                grade = float(input("Enter the amount to subtract: "))
+                self.reducing(grade)
+            elif action == 'q':
+                print("Transaction finished.")
+                break
+            else:
+                print("Invalid input, please try again.")
+
+student1 = Student("Washington", 92)
+student1.display_brand()
+student1.transaction()
