@@ -25,3 +25,33 @@ circle = circle(7)
 print(f"Rectangle area: {rect.area()} given the width and height of 5 and 10.")
 print(f"Circle area: {circle.area()} given pi and the radius of 7.")
 ------------------------------------------------------------------------
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make  # Store the brand passed as an argument
+        self.model = model  # Store the model passed as an argument
+        self.year = year  # Store the year passed as an argument
+
+    def info(self):
+        return f"{self.year} {self.make} {self.model}"
+
+class Car(Vehicle):
+        def __init__(self, make, model, year, doors):
+            super().__init__(make, model, year)
+            self.doors = doors
+
+        def info(self):
+            return f"{self.year} {self.make} {self.model} with {self.doors} doors"
+
+class Truck(Vehicle):
+        def __init__(self, make, model, year, bed_length):
+            super().__init__(make, model, year)
+            self.bed_length = bed_length
+
+        def info(self):
+            return f"{self.year} {self.make} {self.model} with a {self.bed_length} ft bed."
+        
+car = Car("Toyota", "Corolla", 2020, 4)
+truck = Truck("Ford", "F-150", 2021, 8)
+
+print(car.info())
+print(truck.info())
