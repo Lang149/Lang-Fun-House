@@ -1,0 +1,28 @@
+class Computer:
+    def __int__(self, name, cpu, gpu, memory, storage):
+        self.name = name
+        self.cpu = cpu
+        self.gpu = gpu
+        self.memory = memory
+        self.storage = storage
+
+def print_specs(self):
+    print("ITEM: {}".format(self.name))
+    print("CPU: {}\nGRAPHICS: {}\nRAM: {}\nSTORAGE: {}".format(self.cpu, self.gpu, self.memory,self.storage))
+    print()
+
+class Macbook_Air(Computer):
+    def init(self, name, cpu, gpu, memory, storage):
+        Computer.__init__(self, name, cpu, gpu, memory, storage)
+class Macbook_Pro13(Computer):
+    def init(self, name, cpu, gpu, memory, storage):
+        Computer.__init__(self, name, cpu, gpu, memory, storage)
+class MacBook_Pro14(Computer):
+    def init(self, name, cpu, gpu, memory, storage):
+        Computer.__init__(self, name, cpu, gpu, memory, storage)
+class Macbook_Pro15(Computer):
+    def init(self, name, cpu, gpu, memory, storage):
+        Computer.__init__(self, name, cpu, gpu, memory, storage)
+class Macbook_Pro16(Computer):
+    def init(self, name, cpu, gpu, memory, storage):
+        Computer.__init__(self, name, cpu, gpu, memory, storage)
