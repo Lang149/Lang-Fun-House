@@ -1,10 +1,11 @@
 class Computer:
-    def __int__(self, name, cpu, gpu, memory, storage):
+    def __int__(self, name, cpu, gpu, memory, storage, money):
         self.name = name
         self.cpu = cpu
         self.gpu = gpu
         self.memory = memory
         self.storage = storage
+        self.money = money
 
 def print_specs(self):
     print("ITEM: {}".format(self.name))
@@ -12,17 +13,23 @@ def print_specs(self):
     print()
 
 class Macbook_Air(Computer):
-    def init(self, name, cpu, gpu, memory, storage):
-        Computer.__init__(self, name, cpu, gpu, memory, storage)
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
 class Macbook_Pro13(Computer):
-    def init(self, name, cpu, gpu, memory, storage):
-        Computer.__init__(self, name, cpu, gpu, memory, storage)
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
 class MacBook_Pro14(Computer):
-    def init(self, name, cpu, gpu, memory, storage):
-        Computer.__init__(self, name, cpu, gpu, memory, storage)
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
 class Macbook_Pro15(Computer):
-    def init(self, name, cpu, gpu, memory, storage):
-        Computer.__init__(self, name, cpu, gpu, memory, storage)
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
 class Macbook_Pro16(Computer):
-    def init(self, name, cpu, gpu, memory, storage):
-        Computer.__init__(self, name, cpu, gpu, memory, storage)
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
+class Macbook_Mini(Computer):
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
+class iMac(Computer):
+    def init(self, name, cpu, gpu, memory, storage, money):
+        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
