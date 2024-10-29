@@ -9,7 +9,7 @@ class Computer:
 
 def print_specs(self):
     print("ITEM: {}".format(self.name))
-    print("CPU: {}\nGRAPHICS: {}\nRAM: {}\nSTORAGE: {}".format(self.cpu, self.gpu, self.memory,self.storage, self.money))
+    print("CPU: {}\nGRAPHICS: {}\nRAM: {}\nSTORAGE: {}\nMoney {}".format(self.cpu, self.gpu, self.memory,self.storage, self.money))
     print()
 
 class Macbook_Air(Computer):
