@@ -1,35 +1,151 @@
 class Computer:
-    def __int__(self, name, cpu, gpu, memory, storage, money):
+    def __init__(self, name, cpu, gpu, memory, storage, money):
         self.name = name
         self.cpu = cpu
         self.gpu = gpu
         self.memory = memory
         self.storage = storage
-        self.money = money
+        self.money = f"${money}"
 
-def print_specs(self):
-    print("ITEM: {}".format(self.name))
-    print("CPU: {}\nGRAPHICS: {}\nRAM: {}\nSTORAGE: {}\nMoney {}".format(self.cpu, self.gpu, self.memory,self.storage, self.money))
-    print()
+    def print_specs(self):
+        print(f"ITEM: {self.name}")
+        print(f"CPU: {self.cpu}\nGRAPHICS: {self.gpu}\nRAM: {self.memory}\nSTORAGE: {self.storage}\nCost: {self.money}")
+        print()
 
-class Macbook_Air(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class Macbook_Pro13(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class MacBook_Pro14(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class Macbook_Pro15(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class Macbook_Pro16(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class Macbook_Mini(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
-class iMac(Computer):
-    def init(self, name, cpu, gpu, memory, storage, money):
-        Computer.__init__(self, name, cpu, gpu, memory, storage, money)
+# Apple product classes
+class MacBook_Air_M1(Computer):
+    def __init__(self):
+        super().__init__(
+            name="MacBook Air M1",
+            cpu="Apple M1, 8-core CPU",
+            gpu="Apple M1, 7-core GPU",
+            memory="8GB",
+            storage="256GB SSD",
+            money=999
+        )
+
+class MacBook_Air_M2(Computer):
+    def __init__(self):
+        super().__init__(
+            name="MacBook Air M2",
+            cpu="Apple M2, 8-core CPU",
+            gpu="Apple M2, 8-core GPU",
+            memory="8GB",
+            storage="256GB SSD",
+            money=1199
+        )
+
+class MacBook_Pro_13_inch(Computer):
+    def __init__(self):
+        super().__init__(
+            name="MacBook Pro 13-inch",
+            cpu="Apple M2, 8-core CPU",
+            gpu="Apple M2, 10-core GPU",
+            memory="8GB",
+            storage="256GB SSD",
+            money=1299
+        )
+
+class MacBook_Pro_14_inch(Computer):
+    def __init__(self):
+        super().__init__(
+            name="MacBook Pro 14-inch",
+            cpu="Apple M2 Pro, 10-core CPU",
+            gpu="Apple M2 Pro, 16-core GPU",
+            memory="16GB",
+            storage="512GB SSD",
+            money=1999
+        )
+
+class MacBook_Pro_16_inch(Computer):
+    def __init__(self):
+        super().__init__(
+            name="MacBook Pro 16-inch",
+            cpu="Apple M2 Pro, 12-core CPU",
+            gpu="Apple M2 Pro, 19-core GPU",
+            memory="16GB",
+            storage="512GB SSD",
+            money=2499
+        )
+
+class iMac_24_inch(Computer):
+    def __init__(self):
+        super().__init__(
+            name="iMac 24-inch",
+            cpu="Apple M1, 8-core CPU",
+            gpu="Apple M1, 8-core GPU",
+            memory="8GB",
+            storage="256GB SSD",
+            money=1299
+        )
+
+class Mac_Mini_M2(Computer):
+    def __init__(self):
+        super().__init__(
+            name="Mac Mini M2",
+            cpu="Apple M2, 8-core CPU",
+            gpu="Apple M2, 10-core GPU",
+            memory="8GB",
+            storage="256GB SSD",
+            money=599
+        )
+
+class Mac_Mini_M2_Pro(Computer):
+    def __init__(self):
+        super().__init__(
+            name="Mac Mini M2 Pro",
+            cpu="Apple M2 Pro, 10-core CPU",
+            gpu="Apple M2 Pro, 16-core GPU",
+            memory="16GB",
+            storage="512GB SSD",
+            money=1299
+        )
+
+class Mac_Studio_M1_Max(Computer):
+    def __init__(self):
+        super().__init__(
+            name="Mac Studio M1 Max",
+            cpu="Apple M1 Max, 10-core CPU",
+            gpu="Apple M1 Max, 24-core GPU",
+            memory="32GB",
+            storage="512GB SSD",
+            money=1999
+        )
+
+class Mac_Studio_M1_Ultra(Computer):
+    def __init__(self):
+        super().__init__(
+            name="Mac Studio M1 Ultra",
+            cpu="Apple M1 Ultra, 20-core CPU",
+            gpu="Apple M1 Ultra, 48-core GPU",
+            memory="64GB",
+            storage="1TB SSD",
+            money=3999
+        )
+
+class Mac_Pro_M2_Ultra(Computer):
+    def __init__(self):
+        super().__init__(
+            name="Mac Pro M2 Ultra",
+            cpu="Apple M2 Ultra, 24-core CPU",
+            gpu="Apple M2 Ultra, 76-core GPU",
+            memory="64GB",
+            storage="1TB SSD",
+            money=6999
+        )
+
+# List of Apple computers and laptops
+products = [
+    MacBook_Air_M1(),
+    MacBook_Air_M2(),
+    MacBook_Pro_13_inch(),
+    MacBook_Pro_14_inch(),
+    MacBook_Pro_16_inch(),
+    iMac_24_inch(),
+    Mac_Mini_M2(),
+    Mac_Mini_M2_Pro(),
+    Mac_Studio_M1_Max(),
+    Mac_Studio_M1_Ultra(),
+    Mac_Pro_M2_Ultra()
+]
+  #ChatGPT
