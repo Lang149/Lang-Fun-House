@@ -198,8 +198,6 @@ class Mac_Pro_M2_Ultra(Computer):
             money=6999
         )
 
-
-# List of Apple computers and laptops, grouped by main product line
 products = [
     # MacBook Air
     MacBook_Air_M1(),
@@ -227,7 +225,27 @@ products = [
 
     # Mac Pro
     Mac_Pro_M2_Ultra()
-]
 
-for product in products:
-    product.print_specs()
+while True:
+    you = input("Hello, user, are you looking for an Apple product? y/n? ")
+    you = you.capitalize()
+    if you == "y":
+        computers = ("1) MacBook Air", '2) MacBook Pro 13"', '3) MacBook Pro 16"', "4) iMac", "5) MacPro", "6) Mac Mini")
+        for computer in computers:
+            print(computer)
+            selection = input("Please check out our selection. Choose number from 1-6: ")
+
+    if selection == "1":
+        MacBook_Air_M1.print_specs()
+        MacBook_Air_M2_13_inch.print_specs()
+        MacBook_Air_M2_15_inch.print_specs()
+
+    elif selection == "2":
+        pro13_1.print_specs()
+        pro13_2.print_specs()
+        pro13_3.print_specs()
+        pro13_4.print_specs()
+
+    elif you == "N":
+        print("Thank you come again.")
+    break
