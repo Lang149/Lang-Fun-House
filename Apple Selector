@@ -229,3 +229,5 @@ products = [
     Mac_Pro_M2_Ultra()
 ]
 
+for product in products:
+    product.print_specs()
