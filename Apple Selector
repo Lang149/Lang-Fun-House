@@ -244,6 +244,7 @@ Mac_Studio_M1_Ultra = Mac_Studio_M1_Ultra()
 Mac_Pro_M2_Ultra = Mac_Pro_M2_Ultra()
 
 computers = ("1) MacBook Air", '2) MacBook Pro', "3) iMac", "4) MacPro", "5) Mac Mini", "6) Mac Studio")
+
 Flag = True
 while Flag:
     you = input("Hello, user, are you looking for an Apple product? y/n? ")
@@ -256,10 +257,22 @@ while Flag:
             MacBook_Air_M1.print_specs()
             MacBook_Air_M2_13_inch.print_specs()
             MacBook_Air_M2_15_inch.print_specs()
-
-
-
-
+        elif selection == "2":
+            MacBook_Pro_13_inch_M2.print_specs()
+            MacBook_Pro_14_inch_M2_Max.print_specs()
+            MacBook_Pro_16_inch_M2_Pro.print_specs()
+            MacBook_Pro_16_inch_M2_Max.print_specs()
+        elif selection == "3":
+            iMac_24_inch_M1.print_specs()
+            iMac_24_inch_M1_512GB.print_specs()
+        elif selection == "4":
+            Mac_Pro_M2_Ultra.print_specs()
+        elif selection == "5":
+            Mac_Mini_M2.print_specs()
+            Mac_Mini_M2_Pro.print_specs()
+        elif selection == "6":
+            Mac_Studio_M1_Max.print_specs()
+            Mac_Studio_M1_Ultra.print_specs()
 
 
     elif you == "N" or you == "NO":
@@ -268,16 +281,3 @@ while Flag:
     else:
         print("This is not a valid answer. Please rerun the code.")
         break
-
-
-    if selection == "1":
-        MacBook_Air_M1.print_specs()
-        MacBook_Air_M2_13_inch.print_specs()
-        MacBook_Air_M2_15_inch.print_specs()
-        pass
-
-    elif selection == "2":
-        pro13_1.print_specs()
-        pro13_2.print_specs()
-        pro13_3.print_specs()
-        pro13_4.print_specs()
