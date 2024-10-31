@@ -225,27 +225,59 @@ products = [
 
     # Mac Pro
     Mac_Pro_M2_Ultra()
+]
 
-while True:
+MacBook_Air_M1 = MacBook_Air_M1()
+MacBook_Air_M2_13_inch = MacBook_Air_M2_13_inch()
+MacBook_Air_M2_15_inch = MacBook_Air_M2_15_inch()
+MacBook_Pro_13_inch_M2 = MacBook_Pro_13_inch_M2()
+MacBook_Pro_14_inch_M2_Pro = MacBook_Pro_14_inch_M2_Pro()
+MacBook_Pro_14_inch_M2_Max = MacBook_Pro_14_inch_M2_Max()
+MacBook_Pro_16_inch_M2_Pro = MacBook_Pro_16_inch_M2_Pro()
+MacBook_Pro_16_inch_M2_Max = MacBook_Pro_16_inch_M2_Max()
+iMac_24_inch_M1 = iMac_24_inch_M1()
+iMac_24_inch_M1_512GB = iMac_24_inch_M1_512GB()
+Mac_Mini_M2 = Mac_Mini_M2()
+Mac_Mini_M2_Pro = Mac_Mini_M2_Pro()
+Mac_Studio_M1_Max = Mac_Studio_M1_Max()
+Mac_Studio_M1_Ultra = Mac_Studio_M1_Ultra()
+Mac_Pro_M2_Ultra = Mac_Pro_M2_Ultra()
+
+computers = ("1) MacBook Air", '2) MacBook Pro', "3) iMac", "4) MacPro", "5) Mac Mini", "6) Mac Studio")
+Flag = True
+while Flag:
     you = input("Hello, user, are you looking for an Apple product? y/n? ")
     you = you.capitalize()
-    if you == "y":
-        computers = ("1) MacBook Air", '2) MacBook Pro 13"', '3) MacBook Pro 16"', "4) iMac", "5) MacPro", "6) Mac Mini")
+    if you == "Y" or you == "YES":
         for computer in computers:
             print(computer)
-            selection = input("Please check out our selection. Choose number from 1-6: ")
+        selection = input("Please check out our selection. Choose number from 1-6: ")
+        if selection == "1":
+            MacBook_Air_M1.print_specs()
+            MacBook_Air_M2_13_inch.print_specs()
+            MacBook_Air_M2_15_inch.print_specs()
+
+
+
+
+
+
+    elif you == "N" or you == "NO":
+        print("Thank you for checking out our Apple Store. Goodbye!")
+        break
+    else:
+        print("This is not a valid answer. Please rerun the code.")
+        break
+
 
     if selection == "1":
         MacBook_Air_M1.print_specs()
         MacBook_Air_M2_13_inch.print_specs()
         MacBook_Air_M2_15_inch.print_specs()
+        pass
 
     elif selection == "2":
         pro13_1.print_specs()
         pro13_2.print_specs()
         pro13_3.print_specs()
         pro13_4.print_specs()
-
-    elif you == "N":
-        print("Thank you come again.")
-    break
