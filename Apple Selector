@@ -245,39 +245,47 @@ Mac_Pro_M2_Ultra = Mac_Pro_M2_Ultra()
 
 computers = ("1) MacBook Air", '2) MacBook Pro', "3) iMac", "4) MacPro", "5) Mac Mini", "6) Mac Studio")
 
+products = {
+    "1": [MacBook_Air_M1, MacBook_Air_M2_13_inch, MacBook_Air_M2_15_inch],
+    "2": [MacBook_Pro_13_inch_M2, MacBook_Pro_14_inch_M2_Pro, MacBook_Pro_14_inch_M2_Max, MacBook_Pro_16_inch_M2_Pro, MacBook_Pro_16_inch_M2_Max],
+    "3": [   iMac_24_inch_M1,iMac_24_inch_M1_512GB,],
+    "4": [Mac_Pro_M2_Ultra],
+    "5": [Mac_Mini_M2, Mac_Mini_M2_Pro],
+    "6": [Mac_Studio_M1_Max, Mac_Studio_M1_Ultra]
+}
+
+categories = {
+    "1": "MacBook Air",
+    "2": "MacBook Pro",
+    "3": "iMac",
+    "4": "Mac Pro",
+    "5": "Mac Mini",
+    "6": "Mac Studio"
+}
 Flag = True
 while Flag:
-    you = input("Hello, user, are you looking for an Apple product? y/n? ")
-    you = you.capitalize()
-    if you == "Y" or you == "YES":
-        for computer in computers:
-            print(computer)
-        selection = input("Please check out our selection. Choose number from 1-6: ")
-        if selection == "1":
-            MacBook_Air_M1.print_specs()
-            MacBook_Air_M2_13_inch.print_specs()
-            MacBook_Air_M2_15_inch.print_specs()
-        elif selection == "2":
-            MacBook_Pro_13_inch_M2.print_specs()
-            MacBook_Pro_14_inch_M2_Max.print_specs()
-            MacBook_Pro_16_inch_M2_Pro.print_specs()
-            MacBook_Pro_16_inch_M2_Max.print_specs()
-        elif selection == "3":
-            iMac_24_inch_M1.print_specs()
-            iMac_24_inch_M1_512GB.print_specs()
-        elif selection == "4":
-            Mac_Pro_M2_Ultra.print_specs()
-        elif selection == "5":
-            Mac_Mini_M2.print_specs()
-            Mac_Mini_M2_Pro.print_specs()
-        elif selection == "6":
-            Mac_Studio_M1_Max.print_specs()
-            Mac_Studio_M1_Ultra.print_specs()
+    user_input = input("Hello, user, are you looking for an Apple product? (y/n): ").strip().capitalize()
+    if user_input in ["Y", "YES"]:
+        print("Please check out our selection.")
+        for key, value in categories.items():
+            print(f"{key}) {value}")
 
+        category_selection = input("Choose a category number (1-6): ").strip()
+        if category_selection in products:
+            product_list = products[category_selection]
+            print("\nAvailable products in this category:")
+            for index, product in enumerate(product_list, start=1):
+                print(f"{index}) {product.name}")
 
-    elif you == "N" or you == "NO":
-        print("Thank you for checking out our Apple Store. Goodbye!")
+            product_selection = input("Enter the product number to see details: ").strip()
+            if product_selection.isdigit() and 1 <= int(product_selection) <= len(product_list):
+                selected_product = product_list[int(product_selection) - 1]
+                selected_product.print_specs()
+            else:
+                print("Invalid product selection. Please try again.")
+
+    elif user_input in ["N", "NO"]:
+        print("Thank you for visiting our Apple Store. Goodbye!")
         break
     else:
-        print("This is not a valid answer. Please rerun the code.")
-        break
+        print("Invalid input. Please enter 'y' or 'n'.")
