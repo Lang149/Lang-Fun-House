@@ -1,0 +1,27 @@
+
+def cal_average(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+
+    average = total / len(numbers)
+    return average
+
+# Example usage
+numbers = [2, 5, 10, 20]
+average = cal_average(numbers)
+print("The average is " + str(average))
+
+
+
+def find_minimum(numbers):
+    min_value = numbers[0]
+    for number in numbers[1:]:
+        if number < min_value:
+            min_value = number
+    return min_value
+
+# Example usage
+numbers = [-2, 5, 6, 9, 12]
+minimum = find_minimum(numbers)
+print("The minimum value is " + str(minimum))
