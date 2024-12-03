@@ -1,0 +1,22 @@
+import pygame, random
+
+pygame.init()
+
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 300
+display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption("Feed the Dragon")
+
+FPS = 60
+clock = pygame.time.clock()
+
+PLAYER_STARTING_LIVES = 5
+PLAYER_VELOCITY = 13
+COIN_STARTING_VELOCITY = 10
+COIN_ACCELERATION = 1
+BUFFER_DISTANCE = 100
+
+score = 0
+player_lives = PLAYER_STARTING_LIVES
+player_velocity = PLAYER_VELOCITY
+coin_velocity = COIN_STARTING_VELOCITY
