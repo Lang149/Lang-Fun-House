@@ -20,3 +20,15 @@ score = 0
 player_lives = PLAYER_STARTING_LIVES
 player_velocity = PLAYER_VELOCITY
 coin_velocity = COIN_STARTING_VELOCITY
+
+
+
+
+
+score.text = pygame.font.render("Score:" + str(score), True, Green, Blue)
+score.rect = score_text.get_rect()
+score.rect.topleft = (10, 10)
+
+title.text = font.render("Feed the Dragon", True, Green, Blue)
+title.rect = title_text.get_rect()
+title rect.centerx = WINDOW_WIDTh//2
