@@ -29,6 +29,16 @@ score.text = pygame.font.render("Score:" + str(score), True, Green, Blue)
 score.rect = score_text.get_rect()
 score.rect.topleft = (10, 10)
 
-title.text = font.render("Feed the Dragon", True, Green, Blue)
+title.text = font.render("Feed the Dragon", True, GREEN, DARKBLUE)
 title.rect = title_text.get_rect()
-title rect.centerx = WINDOW_WIDTh//2
+title_rect.centerx = WINDOW_WIDTh//2
+title_rect.y = 10
+
+lives_text = font.render("Lives: " + str(player_lives), True, GREEN, DARKBLUE)
+lives_rect = lives_text.get_rect()
+lives_rect.topright = (WINDOW_WIDTH - 10, 10)
+
+game_over_text = font.render("GAMEOVER", True, GREEN, DARKBLUE)
+game_over_rect = continue_text.get_rect()
+game_over_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 +32)
+
