@@ -1,0 +1,107 @@
+import pygame as py
+import random as ra
+
+py.init()
+
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 600
+display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+PLAYER_STARTING_LIVES = 5
+PLAYER_VELOCITY = 13
+COIN_STARTING_VELOCITY = 10
+COIN_ACCELERATION = 1
+BUFFER_DISTANCE = 100
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+CYAN = (0, 255, 255)
+MAGENTA = (255, 0, 255)
+
+score = 0
+player_lives = PLAYER_STARTING_LIVES
+player_velocity = PLAYER_VELOCITY
+coin_velocity = COIN_STARTING_VELOCITY
+
+FPS = 200
+clock = py.time.Clock()
+
+#Set game values
+VELOCITY = 5
+
+sound_1 = py.mixer.Sound('sound_1.wav')
+sound_2 = py.mixer.Sound('sound_2.wav')
+
+#Music
+py.mixer.music.load('music.wav')
+py.mixer.music.play(-1, 0.0)
+py.mixer.music.set_volume(1)
+
+fonts = py.font.get_fonts()
+
+system_font = py.font.SysFont('impact', 64)
+custom_font = py.font.Font('AttackGraffiti.ttf', 32)
+
+system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
+system_text_rect = system_text.get_rect()
+system_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
+custom_text_rect = custom_text.get_rect()
+custom_text_rect.center = (WINDOW_WIDTH//2, 20)
+
+
+naruto_image = py.image.load("naruto_right.png")
+naruto_rect = naruto_image.get_rect()
+naruto_rect.topleft = (25, 25)
+
+coin_image = py.image.load("coin.png")
+coin_rect = coin_image.get_rect()
+coin_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+
+
+running = True
+while running:
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            running = False
+
+    # Get a list of all keys currently being pressed down
+    keys = py.key.get_pressed()
+    # print(keys)
+
+    # Move the dragon continuously
+    if (keys[py.K_LEFT] or keys[py.K_a]) and naruto_rect.left > 0:
+        naruto_rect.x -= VELOCITY
+    if (keys[py.K_RIGHT] or keys[py.K_d]) and naruto_rect.right < WINDOW_WIDTH:
+        naruto_rect.x += VELOCITY
+    if (keys[py.K_UP] or keys[py.K_w]) and naruto_rect.top > 20:
+        naruto_rect.y -= VELOCITY
+    if (keys[py.K_DOWN] or keys[py.K_s]) and naruto_rect.bottom < WINDOW_HEIGHT:
+        naruto_rect.y += VELOCITY
+    if naruto_rect.colliderect(coin_rect):
+        print("HIT")
+        coin_rect.x = ra.randint(0, WINDOW_WIDTH - 32)
+        coin_rect.y = ra.randint(0, WINDOW_HEIGHT - 32)
+        sound_2.play()
+    # Fill the display
+    display_surface.fill((0, 0, 0))
+    display_surface.blit(coin_image, coin_rect)
+
+    # Blit assets
+    display_surface.blit(naruto_image, naruto_rect)
+    #display_surface.blit(system_text, system_text_rect)
+    display_surface.blit(custom_text, custom_text_rect)
+
+    # Update the display
+    py.display.update()
+
+    # Tick the clock
+    clock.tick(FPS)
+
+# End the game
+py.quit()
