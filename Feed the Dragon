@@ -7,14 +7,20 @@ WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 600
 display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 PLAYER_STARTING_LIVES = 5
-PLAYER_VELOCITY = 13
-COIN_STARTING_VELOCITY = 10
-COIN_ACCELERATION = 1
-BUFFER_DISTANCE = 100
+PLAYER_VELOCITY = 15
+COIN_STARTING_VELOCITY = 8
+COIN_ACCELERATION = 1.5
+BUFFER_DISTANCE = 1150
+SCORE = 0
+
+Font_1 = 64
+Font_2 = 32
+Lives_Font = 40
+Score_font = 40
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+RED = (120, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -28,7 +34,7 @@ coin_velocity = COIN_STARTING_VELOCITY
 
 FPS = 200
 clock = py.time.Clock()
-
+Top_Buffer = Font_1 + Font_2 + 10
 #Set game values
 VELOCITY = 5
 
@@ -41,22 +47,35 @@ py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
 
 fonts = py.font.get_fonts()
+for font in fonts:
+    print(font)
 
-system_font = py.font.SysFont('impact', 64)
-custom_font = py.font.Font('AttackGraffiti.ttf', 32)
+system_font = py.font.SysFont('impact', Font_1)
+custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
+Lives_font = py.font.SysFont('italicc', Lives_Font)
+Score_font = py.font.SysFont('symbol', Score_font)
 
+#system_font.render(Text, True, Text_Color, Highlight)
 system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
-system_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
+
+Lives_Text = system_font.render(f"LIVES = {PLAYER_STARTING_LIVES}", True, GREEN)
+Lives_Text_rect = Lives_Text.get_rect()
+Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
+
+SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+SCORE_Text_rect = SCORE_Text.get_rect()
+SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
 
 custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
-custom_text_rect.center = (WINDOW_WIDTH//2, 20)
+custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
 
 dragon_image = py.image.load("dragon_right.png")
 dragon_rect = dragon_image.get_rect()
-dragon_rect.topleft = (25, 25)
+dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
 
 coin_image = py.image.load("coin.png")
 coin_rect = coin_image.get_rect()
@@ -64,11 +83,18 @@ coin_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
 
 
+
 running = True
 while running:
+
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
+
+    if PLAYER_STARTING_LIVES > 0:
+        running = True
+    else:
+        running = False
 
     # Get a list of all keys currently being pressed down
     keys = py.key.get_pressed()
@@ -79,25 +105,33 @@ while running:
         dragon_rect.x -= VELOCITY
     if (keys[py.K_RIGHT] or keys[py.K_d]) and dragon_rect.right < WINDOW_WIDTH:
         dragon_rect.x += VELOCITY
-    if (keys[py.K_UP] or keys[py.K_w]) and dragon_rect.top > 20:
+    if (keys[py.K_UP] or keys[py.K_w]) and dragon_rect.top > Top_Buffer:
         dragon_rect.y -= VELOCITY
     if (keys[py.K_DOWN] or keys[py.K_s]) and dragon_rect.bottom < WINDOW_HEIGHT:
         dragon_rect.y += VELOCITY
 
     if dragon_rect.colliderect(coin_rect):
         print("HIT")
-        coin_rect.x = ra.randint(0, WINDOW_WIDTH - 32)
-        coin_rect.y = ra.randint(0, WINDOW_HEIGHT - 32)
+        coin_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        coin_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
         sound_2.play()
+        SCORE += 1
+        SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+    elif 
+
     # Fill the display
-    display_surface.fill((0, 0, 0))
-    display_surface.blit(coin_image, coin_rect)
+    display_surface.fill(RED)
+    if running == True:
+        display_surface.blit(coin_image, coin_rect)
+        coin_rect.x -= coin_velocity
+
 
     # Blit assets
     display_surface.blit(dragon_image, dragon_rect)
-    #display_surface.blit(system_text, system_text_rect)
+    display_surface.blit(system_text, system_text_rect)
     display_surface.blit(custom_text, custom_text_rect)
-
+    display_surface.blit(Lives_Text, Lives_Text_rect)
+    display_surface.blit(SCORE_Text, SCORE_Text_rect)
     # Update the display
     py.display.update()
 
