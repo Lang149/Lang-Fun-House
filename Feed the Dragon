@@ -9,8 +9,8 @@ WINDOW_HEIGHT = 600
 display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 window_rect = display_surface.get_rect()
 PLAYER_STARTING_LIVES = 5
-PLAYER_VELOCITY = 15
-COIN_STARTING_VELOCITY = 8
+PLAYER_VELOCITY = 12
+COIN_STARTING_VELOCITY = 6
 COIN_ACCELERATION = 1.5
 BUFFER_DISTANCE = 1150
 SCORE = 0
@@ -52,11 +52,11 @@ Top_Buffer = Font_1 + Font_2 + 10
 #Set game values
 VELOCITY = 5
 
-sound_1 = py.mixer.Sound('sound_1.wav')
-sound_2 = py.mixer.Sound('sound_2.wav')
+sound_1 = py.mixer.Sound('Sasuke.mp3')
+sound_2 = py.mixer.Sound('Dattebayo.mp3')
 
 #Music
-py.mixer.music.load('music.wav')
+py.mixer.music.load('Theme.mp3')
 py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
 
@@ -68,10 +68,10 @@ system_font = py.font.SysFont('impact', Font_1)
 custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
 Lives_font = py.font.SysFont('italicc', Lives_Font)
 Score_font = py.font.SysFont('symbol', Score_font)
-Losing_font = py.font.Font('soulsfont.ttf', Souls_Font)
+Losing_font = py.font.Font('AttackGraffiti.ttf', Souls_Font)
 
 #system_font.render(Text, True, Text_Color, Highlight)
-system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
+system_text = system_font.render("Naruto's Ramen Trail!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
 
@@ -83,7 +83,7 @@ SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
 SCORE_Text_rect = SCORE_Text.get_rect()
 SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
 
-custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
+custom_text = custom_font.render("Help Naruto to eat ramen!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
@@ -91,11 +91,11 @@ Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHIT
 Losing_text_rect = Losing_text.get_rect()
 Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-dragon_image = py.image.load("dragon_right.png")
+dragon_image = py.image.load("Naruto123.png")
 dragon_rect = dragon_image.get_rect()
 dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
 
-coin_image = py.image.load("coin.png")
+coin_image = py.image.load("Ramen.png")
 coin_rect = coin_image.get_rect()
 coin_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
@@ -170,4 +170,5 @@ while running:
 
 # End the game
 py.quit()
+
 
