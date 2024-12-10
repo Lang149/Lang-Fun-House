@@ -1,11 +1,13 @@
 import pygame as py
 import random as ra
+import time as t
 
 py.init()
 
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 600
 display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+window_rect = display_surface.get_rect()
 PLAYER_STARTING_LIVES = 5
 PLAYER_VELOCITY = 15
 COIN_STARTING_VELOCITY = 8
@@ -17,6 +19,7 @@ Font_1 = 64
 Font_2 = 32
 Lives_Font = 40
 Score_font = 40
+Souls_Font = 200
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -26,6 +29,17 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
+background_color = RED
+
+def fade_out(screen, color, duration):
+    fade_surface = py.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+    fade_surface.fill(color)
+    for alpha in range(0, 256, 5):  # Decrease alpha from 255 to 0
+        fade_surface.set_alpha(alpha)
+        screen.fill(background_color)
+        screen.blit(fade_surface, (0, 0))  # Draw fade surface
+        py.display.update()
+        t.sleep(duration/255) # Adjust sleep time for smooth fading
 
 score = 0
 player_lives = PLAYER_STARTING_LIVES
@@ -54,13 +68,14 @@ system_font = py.font.SysFont('impact', Font_1)
 custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
 Lives_font = py.font.SysFont('italicc', Lives_Font)
 Score_font = py.font.SysFont('symbol', Score_font)
+Losing_font = py.font.Font('soulsfont.ttf', Souls_Font)
 
 #system_font.render(Text, True, Text_Color, Highlight)
 system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
 
-Lives_Text = system_font.render(f"LIVES = {PLAYER_STARTING_LIVES}", True, GREEN)
+Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
 Lives_Text_rect = Lives_Text.get_rect()
 Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
 
@@ -72,6 +87,9 @@ custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
+Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHITE)
+Losing_text_rect = Losing_text.get_rect()
+Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
 dragon_image = py.image.load("dragon_right.png")
 dragon_rect = dragon_image.get_rect()
@@ -81,7 +99,8 @@ coin_image = py.image.load("coin.png")
 coin_rect = coin_image.get_rect()
 coin_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-
+def is_outside_window(item, window):
+    return not window.contains(item)
 
 
 running = True
@@ -91,10 +110,15 @@ while running:
         if event.type == py.QUIT:
             running = False
 
-    if PLAYER_STARTING_LIVES > 0:
+    if player_lives > 0:
         running = True
     else:
+
+        fade_out(display_surface, BLACK, 3)
+        display_surface.blit(Losing_text, Losing_text_rect)
+        t.sleep(5)
         running = False
+
 
     # Get a list of all keys currently being pressed down
     keys = py.key.get_pressed()
@@ -117,10 +141,16 @@ while running:
         sound_2.play()
         SCORE += 1
         SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
-    elif 
+    elif is_outside_window(coin_rect, window_rect):
+        print("MISS")
+        coin_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        coin_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
+        sound_1.play()
+        player_lives -= 1
+        Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
 
     # Fill the display
-    display_surface.fill(RED)
+    display_surface.fill(background_color)
     if running == True:
         display_surface.blit(coin_image, coin_rect)
         coin_rect.x -= coin_velocity
@@ -140,3 +170,4 @@ while running:
 
 # End the game
 py.quit()
+
