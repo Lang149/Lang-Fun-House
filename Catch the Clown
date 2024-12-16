@@ -102,11 +102,11 @@ Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHIT
 Losing_text_rect = Losing_text.get_rect()
 Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-dragon_image = py.image.load("dragon_right.png")
-dragon_rect = dragon_image.get_rect()
-dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
+Clown_image = py.image.load("Guts.png")
+Clown_rect = Clown_image.get_rect()
+Clown_rect.midleft = (0, WINDOW_HEIGHT//2)
 
-clown_image = py.image.load("coin.png")
+clown_image = py.image.load("Guts.png")
 clown_rect = clown_image.get_rect()
 clown_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
@@ -135,31 +135,6 @@ while running:
     keys = py.key.get_pressed()
     # print(keys)
 
-    # Move the dragon continuously
-    if (keys[py.K_LEFT] or keys[py.K_a]) and dragon_rect.left > 0:
-        dragon_rect.x -= VELOCITY
-    if (keys[py.K_RIGHT] or keys[py.K_d]) and dragon_rect.right < WINDOW_WIDTH:
-        dragon_rect.x += VELOCITY
-    if (keys[py.K_UP] or keys[py.K_w]) and dragon_rect.top > Top_Buffer:
-        dragon_rect.y -= VELOCITY
-    if (keys[py.K_DOWN] or keys[py.K_s]) and dragon_rect.bottom < WINDOW_HEIGHT:
-        dragon_rect.y += VELOCITY
-
-    if dragon_rect.colliderect(clown_rect):
-        print("HIT")
-        clown_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
-        clown_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
-        sound_2.play()
-        SCORE += 1
-        SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
-    elif is_outside_window(clown_rect, window_rect):
-        print("MISS")
-        clown_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
-        clown_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
-        sound_1.play()
-        player_lives -= 1
-        Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
-
     # Fill the display
     display_surface.blit(background_color, (0, 0))
     if running == True:
@@ -168,7 +143,7 @@ while running:
 
 
     # Blit assets
-    display_surface.blit(dragon_image, dragon_rect)
+    display_surface.blit(clown_image, clown_rect)
     display_surface.blit(system_text, system_text_rect)
     display_surface.blit(custom_text, custom_text_rect)
     display_surface.blit(Lives_Text, Lives_Text_rect)
