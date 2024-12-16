@@ -1,1 +1,183 @@
+import pygame as py
+import random as ra
+import time as t
 
+py.init()
+
+WINDOW_WIDTH = 945
+WINDOW_HEIGHT = 600
+display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+window_rect = display_surface.get_rect()
+py.display.set_caption("Catch the Clown")
+
+BUFFER_DISTANCE = 1150
+SCORE = 0
+
+Font_1 = 64
+Font_2 = 32
+Lives_Font = 40
+Score_font = 40
+Souls_Font = 200
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (120, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+CYAN = (0, 255, 255)
+MAGENTA = (255, 0, 255)
+background_color = py.image.load('Background1.png')
+
+def fade_out(screen, color, duration):
+    fade_surface = py.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+    fade_surface.fill(color)
+    for alpha in range(0, 256, 5):  # Decrease alpha from 255 to 0
+        fade_surface.set_alpha(alpha)
+        screen.blit(fade_surface, (0, 0))  # Draw fade surface
+        py.display.update()
+        t.sleep(duration/255) # Adjust sleep time for smooth fading
+
+score = 0
+PLAYER_STARTING_LIVES = 5
+PLAYER_STARTING_VELOCITY = 7
+CLOWN_STARTING_VELOCITY = 6
+CLOWN_ACCELERATION = 0.1
+BUFFER_DISTANCE = 200
+SCORE = 0
+PLAYER_VELOCITY = PLAYER_STARTING_VELOCITY + WINDOW_HEIGHT / 300
+
+
+Font_1 = 64
+Font_2 = 32
+Lives_Font = 40
+Score_font = 40
+Souls_Size = 100
+Welcome_Size = 150
+Pause_Size = 120
+
+score = 0
+player_lives = PLAYER_STARTING_LIVES
+player_velocity = PLAYER_VELOCITY
+CLOWN_velocity = CLOWN_STARTING_VELOCITY
+
+FPS = 200
+clock = py.time.Clock()
+Top_Buffer = Font_1 + Font_2 + 10
+
+sound_2 = py.mixer.Sound('click_sound.wav')
+sound_1 = py.mixer.Sound('miss_sound.wav')
+py.mixer.music.load('Berserk_Guts.mp3')
+py.mixer.music.play(-1, 0.0)
+py.mixer.music.set_volume(1)
+
+fonts = py.font.get_fonts()
+for font in fonts:
+    print(font)
+
+system_font = py.font.SysFont('impact', Font_1)
+custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
+Lives_font = py.font.SysFont('italicc', Lives_Font)
+Score_font = py.font.SysFont('symbol', Score_font)
+Losing_font = py.font.Font('soulsfont.ttf', Souls_Font)
+
+#system_font.render(Text, True, Text_Color, Highlight)
+system_text = system_font.render("Catch the Clown!", True, GREEN, BLUE)
+system_text_rect = system_text.get_rect()
+system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
+
+Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
+Lives_Text_rect = Lives_Text.get_rect()
+Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
+
+SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+SCORE_Text_rect = SCORE_Text.get_rect()
+SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
+
+custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
+custom_text_rect = custom_text.get_rect()
+custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
+
+Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHITE)
+Losing_text_rect = Losing_text.get_rect()
+Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+dragon_image = py.image.load("dragon_right.png")
+dragon_rect = dragon_image.get_rect()
+dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
+
+clown_image = py.image.load("coin.png")
+clown_rect = clown_image.get_rect()
+clown_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+def is_outside_window(item, window):
+    return not window.contains(item)
+
+
+running = True
+while running:
+
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            running = False
+
+    if player_lives > 0:
+        running = True
+    else:
+
+        fade_out(display_surface, BLACK, 3)
+        display_surface.blit(Losing_text, Losing_text_rect)
+        t.sleep(5)
+        running = False
+
+
+    # Get a list of all keys currently being pressed down
+    keys = py.key.get_pressed()
+    # print(keys)
+
+    # Move the dragon continuously
+    if (keys[py.K_LEFT] or keys[py.K_a]) and dragon_rect.left > 0:
+        dragon_rect.x -= VELOCITY
+    if (keys[py.K_RIGHT] or keys[py.K_d]) and dragon_rect.right < WINDOW_WIDTH:
+        dragon_rect.x += VELOCITY
+    if (keys[py.K_UP] or keys[py.K_w]) and dragon_rect.top > Top_Buffer:
+        dragon_rect.y -= VELOCITY
+    if (keys[py.K_DOWN] or keys[py.K_s]) and dragon_rect.bottom < WINDOW_HEIGHT:
+        dragon_rect.y += VELOCITY
+
+    if dragon_rect.colliderect(clown_rect):
+        print("HIT")
+        clown_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        clown_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
+        sound_2.play()
+        SCORE += 1
+        SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+    elif is_outside_window(clown_rect, window_rect):
+        print("MISS")
+        clown_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        clown_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
+        sound_1.play()
+        player_lives -= 1
+        Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
+
+    # Fill the display
+    display_surface.blit(background_color, (0, 0))
+    if running == True:
+        display_surface.blit(clown_image, clown_rect)
+        clown_rect.x -= CLOWN_STARTING_VELOCITY
+
+
+    # Blit assets
+    display_surface.blit(dragon_image, dragon_rect)
+    display_surface.blit(system_text, system_text_rect)
+    display_surface.blit(custom_text, custom_text_rect)
+    display_surface.blit(Lives_Text, Lives_Text_rect)
+    display_surface.blit(SCORE_Text, SCORE_Text_rect)
+    # Update the display
+    py.display.update()
+
+    # Tick the clock
+    clock.tick(FPS)
+
+# End the game
+py.quit()
