@@ -10,7 +10,7 @@ display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 window_rect = display_surface.get_rect()
 py.display.set_caption("Catch the Clown")
 
-BUFFER_DISTANCE = 1150
+BUFFER_DISTANCE = 1000
 SCORE = 0
 
 Font_1 = 64
@@ -81,7 +81,6 @@ Lives_font = py.font.SysFont('italicc', Lives_Font)
 Score_font = py.font.SysFont('symbol', Score_font)
 Losing_font = py.font.Font('soulsfont.ttf', Souls_Font)
 
-#system_font.render(Text, True, Text_Color, Highlight)
 system_text = system_font.render("Catch the Clown!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
@@ -92,11 +91,7 @@ Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
 
 SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
 SCORE_Text_rect = SCORE_Text.get_rect()
-SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
-
-custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
-custom_text_rect = custom_text.get_rect()
-custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
+SCORE_Text_rect.topleft = (8, (Font_1 + Font_2 - Lives_Font)/2)
 
 Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHITE)
 Losing_text_rect = Losing_text.get_rect()
@@ -145,7 +140,6 @@ while running:
     # Blit assets
     display_surface.blit(clown_image, clown_rect)
     display_surface.blit(system_text, system_text_rect)
-    display_surface.blit(custom_text, custom_text_rect)
     display_surface.blit(Lives_Text, Lives_Text_rect)
     display_surface.blit(SCORE_Text, SCORE_Text_rect)
     # Update the display
