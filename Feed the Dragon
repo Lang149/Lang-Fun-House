@@ -2,27 +2,11 @@ import pygame as py
 import random as ra
 import time as t
 
+
 py.init()
-
-WINDOW_WIDTH = 1200
-WINDOW_HEIGHT = 600
-display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-window_rect = display_surface.get_rect()
-PLAYER_STARTING_LIVES = 5
-PLAYER_VELOCITY = 12
-COIN_STARTING_VELOCITY = 6
-COIN_ACCELERATION = 1.5
-BUFFER_DISTANCE = 1150
-SCORE = 0
-
-Font_1 = 64
-Font_2 = 32
-Lives_Font = 40
-Score_font = 40
-Souls_Font = 200
-
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GRAY = (200, 200, 200)
 RED = (120, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -30,6 +14,65 @@ YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
 background_color = RED
+
+WINDOW_WIDTH = 1800
+WINDOW_HEIGHT = 900
+display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+window_rect = display_surface.get_rect()
+PLAYER_STARTING_LIVES = 5
+PLAYER_STARTING_VELOCITY = 7
+COIN_STARTING_VELOCITY = 6
+COIN_ACCELERATION = 0.1
+BUFFER_DISTANCE = 200
+SCORE = 0
+PLAYER_VELOCITY = PLAYER_STARTING_VELOCITY + WINDOW_HEIGHT / 300
+
+
+Font_1 = 64
+Font_2 = 32
+Lives_Font = 40
+Score_font = 40
+Souls_Size = 100
+Welcome_Size = 150
+Pause_Size = 120
+
+score = 0
+player_lives = PLAYER_STARTING_LIVES
+player_velocity = PLAYER_VELOCITY
+coin_velocity = COIN_STARTING_VELOCITY
+
+FPS = 200
+clock = py.time.Clock()
+Top_Buffer = Font_1 + Font_2 + 10
+
+
+
+sound_1 = py.mixer.Sound('sound_1.wav') #coin get
+sound_2 = py.mixer.Sound('sound_2.wav') #coin miss
+#sound_3 = py.mixer.Sound('')#bomb hit
+
+#Music
+py.mixer.music.load('music.wav')
+py.mixer.music.play(-1, 0.0)
+py.mixer.music.set_volume(1)
+
+
+def display_text(screen, text, Font, color, position):
+    text_surface = Font.render(text, True, color)
+    text_rect = text_surface.get_rect(center=position)
+    screen.blit(text_surface, text_rect)
+
+fonts = py.font.get_fonts()
+for font in fonts:
+    print(font)
+
+system_font = py.font.SysFont('impact', Font_1)
+custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
+Lives_font = py.font.SysFont('italicc', Lives_Font)
+Score_font = py.font.SysFont('symbol', Score_font)
+Losing_font = py.font.Font('soulsfont.ttf', Souls_Size)
+Welcome_font = py.font.Font('JerseySharp.ttf', Welcome_Size)
+Pause_font = py.font.SysFont('gdt', Pause_Size)
 
 def fade_out(screen, color, duration):
     fade_surface = py.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -41,37 +84,33 @@ def fade_out(screen, color, duration):
         py.display.update()
         t.sleep(duration/255) # Adjust sleep time for smooth fading
 
-score = 0
-player_lives = PLAYER_STARTING_LIVES
-player_velocity = PLAYER_VELOCITY
-coin_velocity = COIN_STARTING_VELOCITY
+def pause():
+    paused = True
+    while paused:
+        display_surface.fill(GRAY)
+        display_text(display_surface, "Game Paused", Pause_font, BLACK, (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+        display_text(display_surface, "Press P to Resume", py.font.Font(None, 50), BLACK,
+                     (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 80))
+        py.display.flip()
 
-FPS = 200
-clock = py.time.Clock()
-Top_Buffer = Font_1 + Font_2 + 10
-#Set game values
-VELOCITY = 5
+        for event in py.event.get():
+            if event.type == py.QUIT:
+                py.quit()
+                quit()
+            if event.type == py.KEYDOWN:
+                if event.key == py.K_p:  # Resume on pressing "P"
+                    paused = False
 
-sound_1 = py.mixer.Sound('Sasuke.mp3')
-sound_2 = py.mixer.Sound('Dattebayo.mp3')
 
-#Music
-py.mixer.music.load('Theme.mp3')
-py.mixer.music.play(-1, 0.0)
-py.mixer.music.set_volume(1)
 
-fonts = py.font.get_fonts()
-for font in fonts:
-    print(font)
 
-system_font = py.font.SysFont('impact', Font_1)
-custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
-Lives_font = py.font.SysFont('italicc', Lives_Font)
-Score_font = py.font.SysFont('symbol', Score_font)
-Losing_font = py.font.Font('AttackGraffiti.ttf', Souls_Font)
+
+Welcome_Text = system_font.render(f"Welcome to Andy and Lang's Pygame Project!", True, GREEN)
+Welcome_Text_rect = Welcome_Text.get_rect()
+Welcome_Text_rect.midtop = (WINDOW_WIDTH//2, WINDOW_HEIGHT-32)
 
 #system_font.render(Text, True, Text_Color, Highlight)
-system_text = system_font.render("Naruto's Ramen Trail!", True, GREEN, BLUE)
+system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
 
@@ -83,21 +122,32 @@ SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
 SCORE_Text_rect = SCORE_Text.get_rect()
 SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
 
-custom_text = custom_font.render("Help Naruto to eat ramen!", True, GREEN)
+custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
-Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHITE)
+Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {SCORE}", True, WHITE)
 Losing_text_rect = Losing_text.get_rect()
 Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-dragon_image = py.image.load("Naruto123.png")
+dragon_image = py.image.load("dragon_right.png")
+py.transform.scale(dragon_image,(WINDOW_WIDTH/ 100, WINDOW_WIDTH/100))
 dragon_rect = dragon_image.get_rect()
 dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
 
-coin_image = py.image.load("Ramen.png")
+
+coin = py.image.load("coin.png")
+coin_size = coin.get_size()
+coin_width, coin_height = (coin_size[0],coin_size[1])  # Reduce size by 50%
+coin_image = py.transform.scale(coin, (coin_size[0], coin_size[1]))
 coin_rect = coin_image.get_rect()
-coin_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+
+bomb = py.image.load("BOMB.webp")
+bomb_size = bomb.get_size()
+bomb_width, bomb_height = coin_width, coin_height
+bomb_image = py.transform.scale(bomb, (bomb_width + 5, bomb_height + 5))
+bomb_rect = bomb_image.get_rect()
 
 def is_outside_window(item, window):
     return not window.contains(item)
@@ -106,55 +156,84 @@ def is_outside_window(item, window):
 running = True
 while running:
 
+    if player_lives > 0:
+        running = True
+    elif player_lives == 0:
+        fade_out(display_surface, BLACK, 3)
+        display_text(display_surface, f"YOU LOST! YOUR SCORE WAS {SCORE}", Losing_font, color=YELLOW,
+                     position=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+        py.display.update()
+        py.time.wait(10000)
+        running = False
+    else:
+        running = False
+
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
-
-    if player_lives > 0:
-        running = True
-    else:
-
-        fade_out(display_surface, BLACK, 3)
-        display_surface.blit(Losing_text, Losing_text_rect)
-        t.sleep(5)
-        running = False
-
+        if event.type == py.KEYDOWN:
+            if event.key == py.K_p:  # Pause the game
+                pause()
 
     # Get a list of all keys currently being pressed down
     keys = py.key.get_pressed()
-    # print(keys)
 
     # Move the dragon continuously
     if (keys[py.K_LEFT] or keys[py.K_a]) and dragon_rect.left > 0:
-        dragon_rect.x -= VELOCITY
+        dragon_rect.x -= PLAYER_VELOCITY
     if (keys[py.K_RIGHT] or keys[py.K_d]) and dragon_rect.right < WINDOW_WIDTH:
-        dragon_rect.x += VELOCITY
+        dragon_rect.x += PLAYER_VELOCITY
     if (keys[py.K_UP] or keys[py.K_w]) and dragon_rect.top > Top_Buffer:
-        dragon_rect.y -= VELOCITY
+        dragon_rect.y -= PLAYER_VELOCITY
     if (keys[py.K_DOWN] or keys[py.K_s]) and dragon_rect.bottom < WINDOW_HEIGHT:
-        dragon_rect.y += VELOCITY
+        dragon_rect.y += PLAYER_VELOCITY
 
     if dragon_rect.colliderect(coin_rect):
         print("HIT")
-        coin_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        coin_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
         coin_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
         sound_2.play()
         SCORE += 1
         SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+        coin_velocity += COIN_ACCELERATION
+        if SCORE % 5 == 0 and player_lives <5:
+            player_lives += 1
+            Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
     elif is_outside_window(coin_rect, window_rect):
         print("MISS")
-        coin_rect.x = ra.randint(BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        coin_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
         coin_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
         sound_1.play()
         player_lives -= 1
         Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
+        coin_velocity = COIN_STARTING_VELOCITY
+    if dragon_rect.colliderect(bomb_rect):
+        print("BOOM")
+        if SCORE >= 15:
+            bomb_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+            bomb_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
+        #sound_3.play()
+        if SCORE >= 2:
+            SCORE -= 3
+        SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
+        player_lives -= 2
+        Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
+    elif is_outside_window(bomb_rect, window_rect):
+        print("Dodge")
+        bomb_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
+        bomb_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
+
 
     # Fill the display
     display_surface.fill(background_color)
-    if running == True:
+
+    if running == True and player_lives > 0:
         display_surface.blit(coin_image, coin_rect)
         coin_rect.x -= coin_velocity
 
+    if running == True and player_lives > 0 and SCORE >= 15:
+        display_surface.blit(bomb_image, bomb_rect)
+        bomb_rect.x -= coin_velocity / 2
 
     # Blit assets
     display_surface.blit(dragon_image, dragon_rect)
@@ -170,5 +249,3 @@ while running:
 
 # End the game
 py.quit()
-
-
