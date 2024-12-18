@@ -47,12 +47,12 @@ Top_Buffer = Font_1 + Font_2 + 10
 
 
 
-sound_1 = py.mixer.Sound('sound_1.wav') #coin get
-sound_2 = py.mixer.Sound('sound_2.wav') #coin miss
+sound_1 = py.mixer.Sound('Dattebayo.mp3') #coin get
+sound_2 = py.mixer.Sound('Sasuke.mp3') #coin miss
 #sound_3 = py.mixer.Sound('')#bomb hit
 
 #Music
-py.mixer.music.load('music.wav')
+py.mixer.music.load('Theme.mp3')
 py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
 
@@ -110,7 +110,7 @@ Welcome_Text_rect = Welcome_Text.get_rect()
 Welcome_Text_rect.midtop = (WINDOW_WIDTH//2, WINDOW_HEIGHT-32)
 
 #system_font.render(Text, True, Text_Color, Highlight)
-system_text = system_font.render("Dragons Rule!", True, GREEN, BLUE)
+system_text = system_font.render("Naruto Rule!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
 
@@ -122,7 +122,7 @@ SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
 SCORE_Text_rect = SCORE_Text.get_rect()
 SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
 
-custom_text = custom_font.render("Move the dragon soon!", True, GREEN)
+custom_text = custom_font.render("Move Naruto for his ramen!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
@@ -130,13 +130,13 @@ Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {SCORE}", True, WHIT
 Losing_text_rect = Losing_text.get_rect()
 Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-dragon_image = py.image.load("dragon_right.png")
+dragon_image = py.image.load("Naruto.png")
 py.transform.scale(dragon_image,(WINDOW_WIDTH/ 100, WINDOW_WIDTH/100))
 dragon_rect = dragon_image.get_rect()
 dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
 
 
-coin = py.image.load("coin.png")
+coin = py.image.load("Ramen.png")
 coin_size = coin.get_size()
 coin_width, coin_height = (coin_size[0],coin_size[1])  # Reduce size by 50%
 coin_image = py.transform.scale(coin, (coin_size[0], coin_size[1]))
