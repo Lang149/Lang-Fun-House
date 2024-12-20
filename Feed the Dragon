@@ -13,7 +13,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
-background_color = RED
+background_color = py.image.load('Village.png')
 
 WINDOW_WIDTH = 1800
 WINDOW_HEIGHT = 900
@@ -47,9 +47,9 @@ Top_Buffer = Font_1 + Font_2 + 10
 
 
 
-sound_1 = py.mixer.Sound('Dattebayo.mp3') #coin get
-sound_2 = py.mixer.Sound('Sasuke.mp3') #coin miss
-#sound_3 = py.mixer.Sound('')#bomb hit
+sound_1 = py.mixer.Sound('Sasuke.mp3') #coin miss
+sound_2 = py.mixer.Sound('Dattebayo.mp3') #coin get
+sound_3 = py.mixer.Sound("Explode.mp3") #bomb get
 
 #Music
 py.mixer.music.load('Theme.mp3')
@@ -225,7 +225,7 @@ while running:
 
 
     # Fill the display
-    display_surface.fill(background_color)
+    display_surface.blit(background_color, (0, 0))
 
     if running == True and player_lives > 0:
         display_surface.blit(coin_image, coin_rect)
