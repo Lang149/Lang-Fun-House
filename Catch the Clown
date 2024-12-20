@@ -1,152 +1,131 @@
 import pygame as py
-import random as ra
-import time as t
+import copy as co
 
 py.init()
 
-WINDOW_WIDTH = 945
-WINDOW_HEIGHT = 600
-display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-window_rect = display_surface.get_rect()
-py.display.set_caption("Catch the Clown")
-
-BUFFER_DISTANCE = 1000
-SCORE = 0
-
-Font_1 = 64
-Font_2 = 32
-Lives_Font = 40
-Score_font = 40
-Souls_Font = 200
-
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GRAY = (200, 200, 200)
 RED = (120, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
-background_color = py.image.load('Background1.png')
+Transparent = (0,0,0, 255)
+Mouse_Radius = 3
+Buffer = 20
 
-def fade_out(screen, color, duration):
-    fade_surface = py.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-    fade_surface.fill(color)
-    for alpha in range(0, 256, 5):  # Decrease alpha from 255 to 0
-        fade_surface.set_alpha(alpha)
-        screen.blit(fade_surface, (0, 0))  # Draw fade surface
-        py.display.update()
-        t.sleep(duration/255) # Adjust sleep time for smooth fading
-
-score = 0
-PLAYER_STARTING_LIVES = 5
-PLAYER_STARTING_VELOCITY = 7
-CLOWN_STARTING_VELOCITY = 6
-CLOWN_ACCELERATION = 0.1
-BUFFER_DISTANCE = 200
-SCORE = 0
-PLAYER_VELOCITY = PLAYER_STARTING_VELOCITY + WINDOW_HEIGHT / 300
+Width = 945
+Length = 600
+Margin = 100
+Display_Window = py.display.set_mode((Width, Length))
+Boarder = 5
+Boarder_Width = Width - Boarder
+Boarder_Length = Length - Boarder
+Window_Rect = Display_Window.get_rect()
+Player_Lives = 5
+Player_Starting_Lives = co.deepcopy(Player_Lives)
+Score = 0
+Clown_Starting_velocity = [3,2]
+Clown_Velocity = co.deepcopy(Clown_Starting_velocity)
+Clown_Acceleration = 0.1
 
 
-Font_1 = 64
-Font_2 = 32
-Lives_Font = 40
-Score_font = 40
-Souls_Size = 100
-Welcome_Size = 150
-Pause_Size = 120
-
-score = 0
-player_lives = PLAYER_STARTING_LIVES
-player_velocity = PLAYER_VELOCITY
-CLOWN_velocity = CLOWN_STARTING_VELOCITY
-
-FPS = 200
+FPS = 144
 clock = py.time.Clock()
-Top_Buffer = Font_1 + Font_2 + 10
 
-sound_2 = py.mixer.Sound('click_sound.wav')
-sound_1 = py.mixer.Sound('miss_sound.wav')
-py.mixer.music.load('Berserk_Guts.mp3')
-py.mixer.music.play(-1, 0.0)
-py.mixer.music.set_volume(1)
+background_image = py.image.load("Background1.png")
+background_image = py.transform.scale(background_image, (Width, Length))
 
-fonts = py.font.get_fonts()
-for font in fonts:
-    print(font)
+Souls_Font_Size = 50
+Lives_font = py.font.Font('soulsfont.ttf', Souls_Font_Size)
+Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, BLUE)
+Lives_text_rect = Lives_text.get_rect()
+Living_text_Width, Living_text_Length = Lives_text.get_size()
+Lives_text_rect.center = (Width - (Buffer + Living_text_Width), Buffer + Living_text_Length)
 
-system_font = py.font.SysFont('impact', Font_1)
-custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
-Lives_font = py.font.SysFont('italicc', Lives_Font)
-Score_font = py.font.SysFont('symbol', Score_font)
-Losing_font = py.font.Font('soulsfont.ttf', Souls_Font)
+Score_font_Size = 50
+Score_font = py.font.Font('JerseySharp.ttf', Score_font_Size)
+Score_text = Score_font.render(f"SCORE = {Score}", True, WHITE)
+Score_text_rect = Score_text.get_rect()
+Score_text_width, Score_text_Length = Score_text.get_size()
+Score_text_rect.topleft = (Buffer + Score_text_width, Buffer + Score_text_Length)
 
-system_text = system_font.render("Catch the Clown!", True, GREEN, BLUE)
-system_text_rect = system_text.get_rect()
-system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
+Clown = py.image.load('Guts.png')
+py.transform.scale(Clown,(Width/ 100, Length/100))
+Clown_Rect = Clown.get_rect()
+Clown_Width, Clown_Length = Clown.get_size()
+Clown_Rect.center = (Width//2, Length//2)
+py.Surface((Width, Length), py.SRCALPHA)
 
-Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
-Lives_Text_rect = Lives_Text.get_rect()
-Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
+#Rectangle(surface, color, (top-left x, top-left y, width, height))
+py.draw.rect(Display_Window, BLACK, (500, 0, 100, 100))
+py.draw.rect(Display_Window, WHITE, (500, 0, 100, 100))
 
-SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
-SCORE_Text_rect = SCORE_Text.get_rect()
-SCORE_Text_rect.topleft = (8, (Font_1 + Font_2 - Lives_Font)/2)
-
-Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {score}", True, WHITE)
-Losing_text_rect = Losing_text.get_rect()
-Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
-
-Clown_image = py.image.load("Guts.png")
-Clown_rect = Clown_image.get_rect()
-Clown_rect.midleft = (0, WINDOW_HEIGHT//2)
-
-clown_image = py.image.load("Guts.png")
-clown_rect = clown_image.get_rect()
-clown_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
-
-def is_outside_window(item, window):
-    return not window.contains(item)
-
+def is_outside_window(item, window, margin):
+    return (
+        item.right < window.left - margin or
+        item.left > window.right + margin or
+        item.bottom < window.top - margin or
+        item.top > window.bottom + margin
+    )
 
 running = True
+
 while running:
+    if Player_Lives <= 0:
+        running = False
+
+    mouse_pos = py.mouse.get_pos()
+    Mouse_Circle = py.draw.circle(Display_Window, Transparent, mouse_pos, Mouse_Radius)
+    # Move the object
+    Clown_Rect.x += Clown_Velocity[0]
+    Clown_Rect.y += Clown_Velocity[1]
+
+    # Check for collisions with the sides of the window
+    if Clown_Rect.left <= 0 + Boarder or Clown_Rect.right >= Boarder_Width:
+        Clown_Velocity[0] = -Clown_Velocity[0]  # Reverse x-velocity
+    if Clown_Rect.top <= 0 + Boarder or Clown_Rect.bottom >= Boarder_Length:
+        Clown_Velocity[1] = -Clown_Velocity[1]  # Reverse y-velocity
 
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
 
-    if player_lives > 0:
-        running = True
-    else:
+        if event.type == py.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if Mouse_Circle.colliderect(Clown_Rect):
+                    Score += 1
+                    Clown_Velocity[0] = -Clown_Velocity[0]
+                    Clown_Velocity[1] = -Clown_Velocity[1]
+                    # Accelerate the clown after collision
+                    Clown_Velocity[0] += Clown_Acceleration if Clown_Velocity[0] > 0 else -Clown_Acceleration
+                    Clown_Velocity[1] += Clown_Acceleration if Clown_Velocity[1] > 0 else -Clown_Acceleration
+                else:
+                    Player_Lives -= 1
+                    Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, BLUE)
+                    # Reset the clown's velocity to the starting velocity
+                    Clown_Velocity = [
+                        Clown_Starting_velocity[0] if Clown_Velocity[0] > 0 else -Clown_Starting_velocity[0],
+                        Clown_Starting_velocity[1] if Clown_Velocity[1] > 0 else -Clown_Starting_velocity[1]
+                    ]
 
-        fade_out(display_surface, BLACK, 3)
-        display_surface.blit(Losing_text, Losing_text_rect)
-        t.sleep(5)
-        running = False
+    if is_outside_window(Clown_Rect, Window_Rect,Margin):
+        Clown_Rect.center = (Width // 2, Length // 2)
+        Display_Window.blit(Clown, Clown_Rect)
+        py.time.wait(2000)
 
-
-    # Get a list of all keys currently being pressed down
-    keys = py.key.get_pressed()
-    # print(keys)
-
-    # Fill the display
-    display_surface.blit(background_color, (0, 0))
-    if running == True:
-        display_surface.blit(clown_image, clown_rect)
-        clown_rect.x -= CLOWN_STARTING_VELOCITY
-
-
-    # Blit assets
-    display_surface.blit(clown_image, clown_rect)
-    display_surface.blit(system_text, system_text_rect)
-    display_surface.blit(Lives_Text, Lives_Text_rect)
-    display_surface.blit(SCORE_Text, SCORE_Text_rect)
+    # Clear the screen
+    Display_Window.blit(background_image, (0, 0))
+    # Draw the object
+    Display_Window.blit(Lives_text, Lives_text_rect)
+    Display_Window.blit(Clown, Clown_Rect)
     # Update the display
-    py.display.update()
+    py.display.flip()
 
-    # Tick the clock
+
+    # Cap the frame rate
     clock.tick(FPS)
 
-# End the game
 py.quit()
