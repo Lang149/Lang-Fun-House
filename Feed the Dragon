@@ -2,7 +2,7 @@ import pygame as py
 import random as ra
 import time as t
 
-
+#varaiables and constants
 py.init()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -13,7 +13,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
-background_color = py.image.load('Village.png')
+background_color = RED
 
 WINDOW_WIDTH = 1800
 WINDOW_HEIGHT = 900
@@ -46,26 +46,23 @@ clock = py.time.Clock()
 Top_Buffer = Font_1 + Font_2 + 10
 
 
-
-sound_1 = py.mixer.Sound('Sasuke.mp3') #coin miss
-sound_2 = py.mixer.Sound('Dattebayo.mp3') #coin get
-sound_3 = py.mixer.Sound("Explode.mp3") #bomb get
+#sounds
+sound_1 = py.mixer.Sound('Dattebayo.mp3') #coin get
+sound_2 = py.mixer.Sound('Sasuke.mp3') #coin miss
+sound_3 = py.mixer.Sound('explosion sfx.mp3')#bomb hit
 
 #Music
 py.mixer.music.load('Theme.mp3')
 py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
 
-
+#use for display
 def display_text(screen, text, Font, color, position):
     text_surface = Font.render(text, True, color)
     text_rect = text_surface.get_rect(center=position)
     screen.blit(text_surface, text_rect)
 
-fonts = py.font.get_fonts()
-for font in fonts:
-    print(font)
-
+#all fonts
 system_font = py.font.SysFont('impact', Font_1)
 custom_font = py.font.Font('AttackGraffiti.ttf', Font_2)
 Lives_font = py.font.SysFont('italicc', Lives_Font)
@@ -73,7 +70,7 @@ Score_font = py.font.SysFont('symbol', Score_font)
 Losing_font = py.font.Font('soulsfont.ttf', Souls_Size)
 Welcome_font = py.font.Font('JerseySharp.ttf', Welcome_Size)
 Pause_font = py.font.SysFont('gdt', Pause_Size)
-
+#fading
 def fade_out(screen, color, duration):
     fade_surface = py.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
     fade_surface.fill(color)
@@ -83,7 +80,7 @@ def fade_out(screen, color, duration):
         screen.blit(fade_surface, (0, 0))  # Draw fade surface
         py.display.update()
         t.sleep(duration/255) # Adjust sleep time for smooth fading
-
+#pausing
 def pause():
     paused = True
     while paused:
@@ -104,7 +101,7 @@ def pause():
 
 
 
-
+#Welcome text
 Welcome_Text = system_font.render(f"Welcome to Andy and Lang's Pygame Project!", True, GREEN)
 Welcome_Text_rect = Welcome_Text.get_rect()
 Welcome_Text_rect.midtop = (WINDOW_WIDTH//2, WINDOW_HEIGHT-32)
@@ -114,48 +111,54 @@ system_text = system_font.render("Naruto Rule!", True, GREEN, BLUE)
 system_text_rect = system_text.get_rect()
 system_text_rect.center = (WINDOW_WIDTH//2, Font_1//2)
 
+#lives text
 Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
 Lives_Text_rect = Lives_Text.get_rect()
 Lives_Text_rect.topright = (WINDOW_WIDTH, (Font_1 + Font_2 - Lives_Font)/2)
 
+#Score text
 SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
 SCORE_Text_rect = SCORE_Text.get_rect()
 SCORE_Text_rect.topleft = (10, (Font_1 + Font_2 - Lives_Font)/2)
 
+#Objective text
 custom_text = custom_font.render("Move Naruto for his ramen!", True, GREEN)
 custom_text_rect = custom_text.get_rect()
 custom_text_rect.center = (WINDOW_WIDTH//2, Font_1 + Font_2)
 
+#losing text
 Losing_text = system_font.render(f"YOU LOST! YOUR SCORE WAS {SCORE}", True, WHITE)
 Losing_text_rect = Losing_text.get_rect()
 Losing_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-dragon_image = py.image.load("Naruto.png")
+#dragon object
+dragon_image = py.image.load("Naruto123.png")
 py.transform.scale(dragon_image,(WINDOW_WIDTH/ 100, WINDOW_WIDTH/100))
 dragon_rect = dragon_image.get_rect()
 dragon_rect.midleft = (0, WINDOW_HEIGHT//2)
 
-
+#coin object
 coin = py.image.load("Ramen.png")
 coin_size = coin.get_size()
 coin_width, coin_height = (coin_size[0],coin_size[1])  # Reduce size by 50%
 coin_image = py.transform.scale(coin, (coin_size[0], coin_size[1]))
 coin_rect = coin_image.get_rect()
 
-
+#Bomb object
 bomb = py.image.load("BOMB.webp")
 bomb_size = bomb.get_size()
 bomb_width, bomb_height = coin_width, coin_height
 bomb_image = py.transform.scale(bomb, (bomb_width + 5, bomb_height + 5))
 bomb_rect = bomb_image.get_rect()
 
+#Outside window checking
 def is_outside_window(item, window):
     return not window.contains(item)
 
 
 running = True
 while running:
-
+    #Lives and game over
     if player_lives > 0:
         running = True
     elif player_lives == 0:
@@ -163,11 +166,12 @@ while running:
         display_text(display_surface, f"YOU LOST! YOUR SCORE WAS {SCORE}", Losing_font, color=YELLOW,
                      position=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
         py.display.update()
-        py.time.wait(10000)
+        py.time.wait(5000)
         running = False
     else:
         running = False
 
+    #Pausing and Quitting
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
@@ -188,6 +192,8 @@ while running:
     if (keys[py.K_DOWN] or keys[py.K_s]) and dragon_rect.bottom < WINDOW_HEIGHT:
         dragon_rect.y += PLAYER_VELOCITY
 
+
+    #Coin Collision
     if dragon_rect.colliderect(coin_rect):
         print("HIT")
         coin_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
@@ -207,6 +213,8 @@ while running:
         player_lives -= 1
         Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
         coin_velocity = COIN_STARTING_VELOCITY
+
+        #Bomb collision
     if dragon_rect.colliderect(bomb_rect):
         print("BOOM")
         if SCORE >= 15:
@@ -218,6 +226,7 @@ while running:
         SCORE_Text = system_font.render(f"SCORE = {SCORE}", True, GREEN)
         player_lives -= 2
         Lives_Text = system_font.render(f"LIVES = {player_lives}/{PLAYER_STARTING_LIVES}", True, GREEN)
+        sound_3.play()
     elif is_outside_window(bomb_rect, window_rect):
         print("Dodge")
         bomb_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
@@ -225,13 +234,15 @@ while running:
 
 
     # Fill the display
-    display_surface.blit(background_color, (0, 0))
+    display_surface.fill(background_color)
 
-    if running == True and player_lives > 0:
+
+    #checks for if the game is still running
+    if running is True and player_lives > 0:
         display_surface.blit(coin_image, coin_rect)
         coin_rect.x -= coin_velocity
 
-    if running == True and player_lives > 0 and SCORE >= 15:
+    if running is True and player_lives > 0 and SCORE >= 15:
         display_surface.blit(bomb_image, bomb_rect)
         bomb_rect.x -= coin_velocity / 2
 
