@@ -13,10 +13,10 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
-background_color = RED
+background_color = py.image.load('village.png')
 
-WINDOW_WIDTH = 1800
-WINDOW_HEIGHT = 900
+WINDOW_WIDTH = 1500
+WINDOW_HEIGHT = 800
 display_surface = py.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 window_rect = display_surface.get_rect()
 PLAYER_STARTING_LIVES = 5
@@ -232,10 +232,7 @@ while running:
         bomb_rect.x = ra.randint(WINDOW_WIDTH - BUFFER_DISTANCE, WINDOW_WIDTH - 32)
         bomb_rect.y = ra.randint(Top_Buffer, WINDOW_HEIGHT - 32)
 
-
-    # Fill the display
-    display_surface.fill(background_color)
-
+    display_surface.blit(background_color, (0,0))
 
     #checks for if the game is still running
     if running is True and player_lives > 0:
