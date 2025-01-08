@@ -33,6 +33,11 @@ change_to = direction
 clock = pygame.time.Clock()
 score = 0
 
+pygame.mixer.music.load('ElonMusic.mp3')
+pygame.mixer.music.play(-1, 0.0)
+pygame.mixer.music.set_volume(1)
+
+
 # Function to display score
 def show_score(color, font, size):
     score_font = pygame.font.SysFont(font, size)
@@ -112,6 +117,10 @@ while True:
 
     # Refresh display
     pygame.display.update()
+
+    # Frame control
+    clock.tick(snake_speed)
+
 
     # Frame control
     clock.tick(snake_speed)
