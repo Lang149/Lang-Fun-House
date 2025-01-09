@@ -36,7 +36,7 @@ Clown_Acceleration = 0.1
 start_time = py.time.get_ticks()  # Get the current time
 display_duration = 3000  # 3 seconds in milliseconds
 #sound
-sound_1 = py.mixer.Sound('sound_1.wav') #Clown get
+sound_1 = py.mixer.Sound('click_sound.wav') #Clown get
 sound_2 = py.mixer.Sound('miss_sound.wav') #Clown miss
 
 #music
