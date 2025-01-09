@@ -40,7 +40,7 @@ sound_1 = py.mixer.Sound('sound_1.wav') #Clown get
 sound_2 = py.mixer.Sound('miss_sound.wav') #Clown miss
 
 #music
-py.mixer.music.load('music.wav')
+py.mixer.music.load('Berserk_Guts.mp3')
 py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
 #frames
