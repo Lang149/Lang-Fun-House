@@ -4,7 +4,7 @@ import copy as co
 import sys
 
 py.init()
-
+#colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (200, 200, 200)
@@ -18,6 +18,7 @@ Transparent = (0,0,0, 255)
 Mouse_Radius = 3
 Buffer = 20
 
+#defines
 Width = 945
 Length = 600
 Margin = 100
@@ -34,21 +35,21 @@ Clown_Velocity = co.deepcopy(Clown_Starting_velocity)
 Clown_Acceleration = 0.1
 start_time = py.time.get_ticks()  # Get the current time
 display_duration = 3000  # 3 seconds in milliseconds
-
+#sound
 sound_1 = py.mixer.Sound('sound_1.wav') #Clown get
 sound_2 = py.mixer.Sound('miss_sound.wav') #Clown miss
 
-
+#music
 py.mixer.music.load('music.wav')
 py.mixer.music.play(-1, 0.0)
 py.mixer.music.set_volume(1)
-
+#frames
 FPS = 144
 clock = py.time.Clock()
-
+#background
 background_image = py.image.load("Background1.png")
 background_image = py.transform.scale(background_image, (Width, Length))
-
+#fonts
 Souls_Font_Size = 50
 Lives_font = py.font.Font('soulsfont.ttf', Souls_Font_Size)
 Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, BLUE)
@@ -63,7 +64,7 @@ Score_text_rect = Score_text.get_rect()
 Score_text_width, Score_text_Length = Score_text.get_size()
 Score_text_rect.center = (Buffer + Score_text_width, Buffer + Score_text_Length)
 
-
+#clown
 Clown = py.image.load('Guts.png')
 py.transform.scale(Clown,(Width/ 100, Length/100))
 Clown_Rect = Clown.get_rect()
@@ -71,9 +72,9 @@ Clown_Width, Clown_Length = Clown.get_size()
 Clown_Rect.center = (Width//2, Length//2)
 py.Surface((Width, Length), py.SRCALPHA)
 
-fade_out_done = False
-#Rectangle(surface, color, (top-left x, top-left y, width, height))
+fade_out_done = False #Fade out True/false
 
+#death
 def fade_out(screen, color, duration):
     fade_surface = py.Surface((Width, Length))
     fade_surface.fill(color)
@@ -84,7 +85,7 @@ def fade_out(screen, color, duration):
         py.display.update()
         t.sleep(duration/255)  # Adjust sleep time for smooth fading
 
-
+#outside window bug
 def is_outside_window(item, window, margin):
     return (
         item.right < window.left - margin or
@@ -96,15 +97,13 @@ def is_outside_window(item, window, margin):
 running = True
 
 while running:
-
-    elapsed_time = py.time.get_ticks() - start_time
-
+    #Mouse position
     mouse_pos = py.mouse.get_pos()
     Mouse_Circle = py.draw.circle(Display_Window, Transparent, mouse_pos, Mouse_Radius)
     # Move the object
     Clown_Rect.x += Clown_Velocity[0]
     Clown_Rect.y += Clown_Velocity[1]
-
+    #event manager
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
@@ -112,7 +111,7 @@ while running:
             quit()
 
         if event.type == py.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == 1: #gain/ lose life
                 if Mouse_Circle.colliderect(Clown_Rect):
                     Score += 1
                     Score_text = Score_font.render(f"SCORE = {Score}", True, WHITE)
@@ -123,15 +122,16 @@ while running:
                     Clown_Velocity[0] += Clown_Acceleration if Clown_Velocity[0] > 0 else -Clown_Acceleration
                     Clown_Velocity[1] += Clown_Acceleration if Clown_Velocity[1] > 0 else -Clown_Acceleration
 
-
+                
                 else:
                     Player_Lives -= 1
-                    Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, BLUE)
+                    Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, WHITE)
                     # Reset the clown's velocity to the starting velocity
                     Clown_Velocity = [
                         Clown_Starting_velocity[0] if Clown_Velocity[0] > 0 else -Clown_Starting_velocity[0],
                         Clown_Starting_velocity[1] if Clown_Velocity[1] > 0 else -Clown_Starting_velocity[1]
                     ]
+                    #reset
             elif event.button == 3:
 
                 if Player_Lives <= 0:
@@ -141,9 +141,9 @@ while running:
                     fade_out_done = False
 
                     # Reset display texts
-                    Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, BLUE)
+                    Lives_text = Lives_font.render(f"LIVES = {Player_Lives}/{Player_Starting_Lives}", True, WHITE)
                     Score_text = Score_font.render(f"SCORE = {Score}", True, WHITE)
-
+    #reset
     if Player_Lives <= 0:
         if not fade_out_done:  # Check if fade_out has already been executed
             fade_out(Display_Window, BLACK, 3)
@@ -162,7 +162,7 @@ while running:
 
 
 
-
+    #bounce
     # Check for collisions with the sides of the window
     if Clown_Rect.left <= 0 + Boarder or Clown_Rect.right >= Boarder_Width:
         Clown_Velocity[0] = -Clown_Velocity[0]  # Reverse x-velocity
