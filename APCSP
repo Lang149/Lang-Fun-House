@@ -1,0 +1,94 @@
+import random
+
+def generate_password(length, include_numbers, include_symbols):
+    print("Welcome to this Random Password Generator!")
+    print("This generator randomly generates a password based on given numbers, symbols, and the designated length.")
+    print("Available units: numbers (1-9), special symbols (!, @, #, $, %, &, *).")
+
+    numbers = ""
+    if include_numbers:
+        while True:
+            numbers_input = input(
+                "Please input the numbers you want (separate with commas, e.g., 1,2,3) or press Enter to skip: "
+            ).replace(",", "").strip()
+            if all(char in "123456789" for char in numbers_input) or numbers_input == "":
+                numbers = numbers_input
+                break
+            print("Invalid input. Only numbers 1-9 are allowed. Please enter again.")
+
+    symbols = ""
+    if include_symbols:
+        while True:
+            symbols_input = input(
+                "Please input the symbols you want (e.g., @,#,$) or press Enter to skip: "
+            ).replace(",", "").strip()
+            if all(char in "!@#$%&*" for char in symbols_input) or symbols_input == "":
+                symbols = symbols_input
+                break
+            print("Invalid input. Only these symbols are allowed: !, @, #, $, %, &, *.")
+
+    if not numbers and not symbols:
+        print("Error: You must select at least one number or one symbol. Please restart.")
+        return
+
+    password_pool = list(numbers + symbols)
+
+    if len(password_pool) > length:
+        print(f"Your total selection ({len(password_pool)}) exceeds the password length ({length}). Please restart.")
+        return
+
+    if len(password_pool) < length:
+        remaining_length = length - len(password_pool)
+        password_pool += random.choices(password_pool, k=remaining_length)
+
+    random.shuffle(password_pool)
+    password = ''.join(password_pool[:length])
+
+    print('----------------------')
+    print("Generating password...")
+    print(f"\nYour randomly generated password is: {password}")
+
+    rerun = input("\nWould you like to generate another password? (yes/no): ").strip().lower()
+    if rerun in ["yes", "y"]:
+        generate_password(length, include_numbers, include_symbols)
+    else:
+        print("Thank you for using the password generator! Goodbye!")
+
+while True:
+    try:
+        length = int(input("Please input the length of the password you want: "))
+        if length > 0:
+            break
+        else:
+            print("Password length must be greater than 0.")
+    except ValueError:
+        print("Invalid input. Please enter a numeric value.")
+
+while True:
+    include_numbers = input("Would you like to include numbers? (yes/no): ").strip().lower()
+    if include_numbers in ["yes", "y", "no", "n"]:
+        include_numbers = include_numbers in ["yes", "y"]  
+        break
+    print("Invalid input. Please enter 'yes' or 'no'.")
+
+while True:
+    include_symbols = input("Would you like to include symbols? (yes/no): ").strip().lower()
+    if include_symbols in ["yes", "y", "no", "n"]:
+        include_symbols = include_symbols in ["yes", "y"]  
+        break
+    print("Invalid input. Please enter 'yes' or 'no'.")
+
+generate_password(length, include_numbers, include_symbols)
+
+
+
+
+
+
+
+
+
+
+
+
+
